@@ -14,13 +14,13 @@ class PostSeeder extends Seeder
      */
     public function run(Faker $faker)
     {
-        for($i = 0; $i < 5; $i++){
+        for($i = 0; $i < 10; $i++){
             DB::table('posts')->insert([
                 "title" => $faker->catchPhrase(),
                 "subtitle" => $faker->sentence(8),
                 "content" => "<p>" . $faker->paragraphs(15, true) . "</p>",
                 "author" => $faker->firstName(null) . " " . $faker->lastName(),
-                "coverImg" => $faker->imageUrl(640, 480, 'animals', true),
+                "coverImg" => "http://127.0.0.1:8000/storage/images/blog-post-cover.jpeg",
                 "category" => $faker->word()
             ]);
         }

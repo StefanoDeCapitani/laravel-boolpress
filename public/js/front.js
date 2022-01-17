@@ -222,6 +222,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "BlogPosts",
   props: {
@@ -864,7 +878,15 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "blog-posts" }, [
     _c("div", { staticClass: "card mb-4" }, [
-      _vm._m(0),
+      _c("a", { attrs: { href: "#!" } }, [
+        _c("img", {
+          staticClass: "card-img-top",
+          attrs: {
+            src: _vm.postsArray[0].coverImg,
+            alt: _vm.postsArray[0].title,
+          },
+        }),
+      ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body" }, [
         _c("div", { staticClass: "small text-muted" }, [
@@ -880,7 +902,13 @@ var render = function () {
         ]),
         _vm._v(" "),
         _c("p", { staticClass: "card-text" }, [
-          _vm._v(_vm._s(_vm.postsArray[0].subtitle)),
+          _c("span", {
+            domProps: {
+              innerHTML: _vm._s(
+                _vm.postsArray[0].content.slice(0, 200).trim() + "..."
+              ),
+            },
+          }),
         ]),
         _vm._v(" "),
         _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
@@ -895,7 +923,12 @@ var render = function () {
       _vm._l(_vm.headlessPostsArray, function (post) {
         return _c("div", { key: post.id, staticClass: "col-lg-6" }, [
           _c("div", { staticClass: "card mb-4" }, [
-            _vm._m(1, true),
+            _c("a", { attrs: { href: "#!" } }, [
+              _c("img", {
+                staticClass: "card-img-top",
+                attrs: { src: post.coverImg, alt: post.title },
+              }),
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
               _c("div", { staticClass: "small text-muted" }, [
@@ -911,7 +944,11 @@ var render = function () {
               ]),
               _vm._v(" "),
               _c("p", { staticClass: "card-text" }, [
-                _vm._v(_vm._s(post.subtitle)),
+                _c("span", {
+                  domProps: {
+                    innerHTML: _vm._s(post.content.slice(0, 80).trim() + "..."),
+                  },
+                }),
               ]),
               _vm._v(" "),
               _c(
@@ -927,33 +964,7 @@ var render = function () {
     ),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "#!" } }, [
-      _c("img", {
-        staticClass: "card-img-top",
-        attrs: {
-          src: "http://127.0.0.1:8000/images/blog-post-cover.jpeg",
-          alt: "postsArray[0].title",
-        },
-      }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "#!" } }, [
-      _c("img", {
-        staticClass: "card-img-top",
-        attrs: { src: "post.coverImg", alt: "post.title" },
-      }),
-    ])
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

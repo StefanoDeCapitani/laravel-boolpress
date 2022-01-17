@@ -8,9 +8,9 @@
 @section('main-content')
     <div class="row d-flex px-3 mb-4">
         <a class="btn btn-primary mb-2 mt-2" href="{{ route("admin.posts.create") }}">Crea nuovo Post</a>
-       {{--  @if(Session::has("message")) --}}
+        @if(Session::has("message"))
         <div class="alert alert-danger ml-auto my-auto">{{ Session::get("message") }}</div>
-      {{--   @endif --}}
+        @endif
     </div>
     <!-- Featured blog post-->
     <div class="card mb-4">
@@ -35,7 +35,7 @@
                         <div class="card-body">
                             <div class="small text-muted">{{ $post->author }}</div>
                             <h2 class="card-title h4">{{ $post->title }}</h2>
-                            <p class="card-text">{{ trim(substr($post->content, 0, 100)) . "..." }}</p>
+                            <p class="card-text">{!! trim(substr($post->content, 0, 100)) . "..." !!}</p>
                             <a class="btn btn-primary" href="{{ route("admin.posts.show", $post->id) }}">Leggi di più →</a>
                         </div>
                     </div>

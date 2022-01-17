@@ -5,8 +5,8 @@
             <a href="#!">
                 <img
                     class="card-img-top"
-                    src="http://127.0.0.1:8000/images/blog-post-cover.jpeg"
-                    alt="postsArray[0].title"
+                    :src="postsArray[0].coverImg"
+                    :alt="postsArray[0].title"
                 />
             </a>
             <div class="card-body">
@@ -14,7 +14,14 @@
                     {{ postsArray[0].author }}
                 </div>
                 <h2 class="card-title h4">{{ postsArray[0].title }}</h2>
-                <p class="card-text">{{ postsArray[0].subtitle }}</p>
+                <p class="card-text">
+                    <span
+                        v-html="
+                            postsArray[0].content.slice(0, 200).trim() + '...'
+                        "
+                    >
+                    </span>
+                </p>
                 <a class="btn btn-primary" href="#">Read more →</a>
             </div>
         </div>
@@ -31,15 +38,22 @@
                     <a href="#!"
                         ><img
                             class="card-img-top"
-                            src="post.coverImg"
-                            alt="post.title"
+                            :src="post.coverImg"
+                            :alt="post.title"
                     /></a>
                     <div class="card-body">
                         <div class="small text-muted">
                             {{ post.author }}
                         </div>
                         <h2 class="card-title h4">{{ post.title }}</h2>
-                        <p class="card-text">{{ post.subtitle }}</p>
+                        <p class="card-text">
+                            <span
+                                v-html="
+                                    post.content.slice(0, 80).trim() + '...'
+                                "
+                            >
+                            </span>
+                        </p>
                         <a class="btn btn-primary" href="#">Read more →</a>
                     </div>
                 </div>
