@@ -1,6 +1,12 @@
 @extends('layouts.admin')
 
 @section('main-content')
+    <div class="row d-flex align-items-center px-3">
+        <a class="btn btn-secondary mb-3 mt-3" href="{{ route("admin.posts.index") }}">Torna all'elenco</a>
+        @if(Session::has("message"))
+        <div class="alert alert-success ml-auto my-auto">{{ Session::get("message") }}</div>
+        @endif
+    </div>
     <div class="card mb-4">
         <a href="#"><img class="card-img-top" src="{{ $post->coverImg }}" alt="{{ $post->title }}" /></a>
         <div class="card-body">

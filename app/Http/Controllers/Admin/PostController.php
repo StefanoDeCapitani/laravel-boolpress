@@ -41,7 +41,9 @@ class PostController extends Controller
     {
         $post = Post::create($request->validated());   
 
-        return redirect()->route("admin.posts.show", $post->id);
+/*         $request->session()->flash("message", "Nuovo post creato con successo!"); */
+
+        return redirect()->route("admin.posts.show", $post->id)->with("message", "Nuovo post creato con successo!");
     }
 
     /**
@@ -61,8 +63,9 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit(Post $post, Request $request)
     {
+
         return view("admin.blog.edit", compact("post"));
     }
 
@@ -77,7 +80,7 @@ class PostController extends Controller
     {   
         $post->update($request->validated());
             
-        return redirect()->route("admin.posts.show", $post->id);
+        return redirect()->route("admin.posts.show", $post->id)->with("message", "Modifiche salvate con successo!");
     }
 
     /**
@@ -90,6 +93,6 @@ class PostController extends Controller
     {
         $post->delete();
 
-        return redirect()->route("admin.posts.index");
+        return redirect()->route("admin.posts.index")->with("message", "Post eliminato con successo!");
     }
 }

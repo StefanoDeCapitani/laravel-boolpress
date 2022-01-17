@@ -4,7 +4,7 @@
             <div class="row">
                 <!-- Blog entries-->
                 <div class="col-lg-8">
-                    <blog-posts />
+                    <blog-posts :posts="posts" />
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">
@@ -24,6 +24,17 @@ export default {
     components: {
         SideBar,
         BlogPosts,
+    },
+    data() {
+        return {
+            posts: null,
+        };
+    },
+    mounted() {
+        axios.get("http://127.0.0.1:8000/api/posts").then((resp) => {
+            console.log(resp.data.data);
+            this.posts = resp.data.data;
+        });
     },
 };
 </script>

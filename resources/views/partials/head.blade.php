@@ -10,8 +10,8 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="{{ asset("assets/favicon.ico") }}" />
-{{--     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{{ asset("css/styles.css") }}" rel="stylesheet" /> --}}
-    <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    @yield('adds-to-head')
+
 </head>
