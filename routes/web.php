@@ -24,5 +24,8 @@ Route::middleware("auth")->namespace("Admin")->name('admin.')->prefix("admin")->
 
 
 Route::get("{any?}", function(){
+    if(Auth::check()){
+        return redirect()->route("admin.posts.index");
+    }
     return view("guest.index");
 });

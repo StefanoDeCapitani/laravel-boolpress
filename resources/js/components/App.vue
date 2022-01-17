@@ -1,22 +1,14 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">I'm an example component.</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <blog-page />
 </template>
 
 <script>
+import BlogPage from "./BlogPage.vue";
+
 export default {
     name: "App",
-    mounted() {
-        console.log("Component mounted.");
+    components: {
+        BlogPage,
     },
 };
 </script>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdatePost;
 
 class PostController extends Controller
 {
@@ -15,7 +16,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view("admin.index");
+        $posts = Post::all();
+
+        return view("admin.blog.index", compact("posts"));
     }
 
     /**
@@ -25,7 +28,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view("admin.blog.create");
     }
 
     /**
@@ -34,9 +37,11 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdatePost $request)
     {
-        //
+        $post = Post::create($request->validated());   
+
+        return redirect()->route("admin.posts.show", $post->id);
     }
 
     /**
@@ -47,7 +52,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view("admin.blog.show", compact("post"));
     }
 
     /**
@@ -58,7 +63,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view("admin.blog.edit", compact("post"));
     }
 
     /**
@@ -68,9 +73,11 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
-    {
-        //
+    public function update(StoreUpdatePost $request, Post $post)
+    {   
+        $post->update($request->validated());
+            
+        return redirect()->route("admin.posts.show", $post->id);
     }
 
     /**
@@ -81,6 +88,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route("admin.posts.index");
     }
 }

@@ -1,5 +1,5 @@
-@extends('layouts.app')
+@extends('layouts.guest')
 
-@section('content')
+@section('main-content')
     <div id="app"></div>
 @endsection
