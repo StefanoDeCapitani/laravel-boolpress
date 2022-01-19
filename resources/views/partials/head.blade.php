@@ -12,6 +12,6 @@
     <link rel="icon" type="image/x-icon" href="{{ asset("assets/favicon.ico") }}" />
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    @yield('adds-to-head')
+    @yield('head-vue-scripts')
 
 </head>

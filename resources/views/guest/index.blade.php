@@ -1,5 +1,5 @@
 @extends('layouts.guest')
 
-@section('main-content')
+@section('vue-app')
     <div id="app"></div>
 @endsection

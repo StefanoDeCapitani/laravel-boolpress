@@ -1,6 +1,7 @@
 @extends('layouts.default')
 
-@section('page-content')
+@section('body')
+@include('partials.navbar')
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -70,4 +71,5 @@
         </div>
     </div>
 </div>
+@include('partials.footer')
 @endsection

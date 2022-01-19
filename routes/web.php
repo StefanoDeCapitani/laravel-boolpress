@@ -22,6 +22,10 @@ Route::middleware("auth")->namespace("Admin")->name('admin.')->prefix("admin")->
     Route::resource("posts", "PostController");
 });
 
+Route::middleware(["auth", "admin"])->namespace("Admin")->name('admin.')->prefix("admin")->group(function(){
+    Route::resource("users", "UserController");
+});
+
 
 Route::get("{any?}", function(){
     if(Auth::check()){

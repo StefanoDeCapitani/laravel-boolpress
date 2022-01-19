@@ -1,6 +1,8 @@
 <template>
     <div>
-        <div class="container">
+        <navbar />
+        <blog-header />
+        <div class="container mt-5">
             <div class="row">
                 <!-- Blog entries-->
                 <div class="col-lg-8">
@@ -16,14 +18,18 @@
 </template>
 
 <script>
+import Navbar from "./Navbar";
 import SideBar from "./SideBar";
 import BlogPosts from "./BlogPosts.vue";
+import BlogHeader from "./BlogHeader.vue";
 
 export default {
     name: "BlogPage",
     components: {
         SideBar,
         BlogPosts,
+        BlogHeader,
+        Navbar,
     },
     data() {
         return {

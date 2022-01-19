@@ -11,4 +11,27 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    &.full-page {
+        height: 100vh;
+        max-height: 100vh;
+    }
+}
+
+.menu {
+    width: 15%;
+}
+
+.dashboard {
+    width: 85%;
+    overflow: auto;
+}
+
+.table {
+    & .thumbnail {
+        height: 40px;
+    }
+}
+
+.text-editor > div {
+    width: 100% !important;
 }
