@@ -4,6 +4,7 @@
 @section('main-content')
 <div class="col">
     <div class="d-flex px-3 mb-4">
+        <h2>Users</h2>
         @if(Session::has("message"))
         <div class="alert alert-danger">{{ Session::get("message") }}</div>
         @endif
@@ -47,7 +48,7 @@
                         <form action="{{ route("admin.users.destroy", $user->id) }}" method="POST">
                             @csrf
                             @method("DELETE")
-                            <button class="btn btn-danger">Cancella Profilo</button> 
+                            <button class="btn btn-danger">Elimina</button> 
                         </form>
                     </td>
                 </tr>

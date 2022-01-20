@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('title', 'Post | Boolpress')
+
 @section('main-content')
 <div class="col-lg-8">
     <div class="d-flex align-items-center">
@@ -11,7 +13,16 @@
     <div class="card mb-4">
         <a href="#"><img class="card-img-top" src="{{ $post->coverImg }}" alt="{{ $post->title }}" /></a>
         <div class="card-body">
-            <div class="small text-muted">Di <a href="{{ route("admin.users.show", $post->user->id) }}">{{ $post->user->name }}</a></div>
+            <div class="small text-muted">
+                Di 
+                    <a href="{{ route("admin.users.show", $post->user->id) }}">
+                        {{ $post->user->name }}
+                    </a>
+                , categoria 
+                    <a href="{{ route("admin.categories.show", $post->category->id) }}"> 
+                        {{ $post->category->name }}
+                    </a>
+            </div>
             <h2>{{ $post->title }}</h2>
             <h5>{{ $post->subtitle }}</h5>
             <p class="card-text">{!! $post->content !!}</p>

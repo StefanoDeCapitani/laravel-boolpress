@@ -44,8 +44,4 @@
         <a class="btn btn-secondary mb-3 mt-3" href="{{ URL::previous() }}">Indietro</a>
     </form>
 </div>
-
-<div class="col-lg-4">
-    @include("admin.partials.sidebar")
-</div>
 @endsection

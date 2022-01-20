@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section("title", "Modifica il post | Boolpress")
+
 @section('main-content')
 <div class="col-lg-8">
     <form action="{{ route("admin.posts.update", $post->id) }}" method="POST" class="mb-5">
@@ -41,9 +43,15 @@
         </div>
         <div class="mb-3">
             <label for="category" class="form-label">Categoria</label>
-            <input type="text" class="form-control @error("category") is-invalid @enderror" 
-            id="category" name="category" value="{{ old('category') ?? $post->category }}">
-            @error("category") 
+            <select name="category_id" class="form-control" id="category">
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" 
+                        {{ $category->id === $post->category->id || $category->id === old("category_id") ?? "selected"}}>
+                        {{ $category->name }}
+                    </option>  
+                @endforeach
+            </select>
+            @error("category_id") 
                 <div class="invalid-feedback">{{ $message }}</div> 
             @enderror
         </div>

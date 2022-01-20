@@ -19,9 +19,9 @@ class PostSeeder extends Seeder
                 "title" => $faker->catchPhrase(),
                 "subtitle" => $faker->sentence(8),
                 "content" => "<p>" . $faker->paragraphs(15, true) . "</p>",
-                "user_id" => $faker->numberBetween(0, 9),
+                "user_id" => $faker->numberBetween(1, 10),
                 "coverImg" => "http://127.0.0.1:8000/storage/images/blog-post-cover.jpeg",
-                "category" => $faker->word(),
+                "category_id" => $faker->numberBetween(1, 6),
                 "created_at" => date("Y-m-d H:i:s"),
             ]);
         }

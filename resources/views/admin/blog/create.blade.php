@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section("title", "Crea nuovo post")
+@section("title", "Crea nuovo post | Boolpress")
 
 @section('main-content')
 <div class="col-lg-8">
@@ -41,9 +41,14 @@
             @enderror
         </div>
         <div class="mb-3">
-            <label for="category" class="form-label">Categoria</label>
-            <input type="text" class="form-control @error("category") is-invalid @enderror" 
-            id="category" name="category" value="{{ old('category')}}">
+            <label for="category_id" class="form-label">Categoria</label>
+            <select name="category_id" class="form-control" id="category_id">
+                @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" {{ ($category->id == old("category_id")) ? "selected" : ""}}>
+                        {{ $category->name }}
+                    </option>  
+                @endforeach
+            </select>
             @error("category") 
                 <div class="invalid-feedback">{{ $message }}</div> 
             @enderror

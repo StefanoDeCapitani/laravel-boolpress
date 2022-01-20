@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdatePost;
 use Illuminate\Support\Facades\Auth;
+use App\Category;
 
 class PostController extends Controller
 {
@@ -22,7 +23,7 @@ class PostController extends Controller
         if(Auth::user()->role === "admin"){
             $posts = Post::all();
         } else {
-            $posts = Post::where("user_id", Auth::id())->with("user")->get();
+            $posts = Post::where("user_id", Auth::id())->with("user")->with("category")->get();
         }
 
         return view("admin.blog.index", compact("posts"));
@@ -35,7 +36,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view("admin.blog.create");
+        $categories = Category::all();
+
+        return view("admin.blog.create", compact("categories"));
     }
 
     /**
@@ -64,7 +67,9 @@ class PostController extends Controller
     {
         $post = Post::where("id", $id)->with("user")->get()[0];
 
-        return view("admin.blog.show", compact("post"));
+        $categories = Category::all();
+
+        return view("admin.blog.show", compact("post", "categories"));
     }
 
     /**
@@ -75,8 +80,9 @@ class PostController extends Controller
      */
     public function edit(Post $post, Request $request)
     {
+        $categories = Category::all();
 
-        return view("admin.blog.edit", compact("post"));
+        return view("admin.blog.edit", compact("post", "categories"));
     }
 
     /**

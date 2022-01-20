@@ -28,7 +28,7 @@ class StoreUpdatePost extends FormRequest
             "subtitle" => "required",
             "content" => "required",
             "coverImg" => "required|url",
-            "category" =>  "required"
+            "category_id" =>  "required"
         ];
     }
 }

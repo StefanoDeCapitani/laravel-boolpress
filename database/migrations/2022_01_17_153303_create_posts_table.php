@@ -20,7 +20,7 @@ class CreatePostsTable extends Migration
             $table->longText("content");
             $table->foreignId("user_id")->constrained();
             $table->string("coverImg")->nullable();
-            $table->string("category");
+            $table->foreignId("category_id")->constrained();
             $table->timestamps();
         });
     }
