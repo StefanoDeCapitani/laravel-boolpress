@@ -3,9 +3,7 @@
 @section('main-content')
 <div class="col-lg-8">
     <div class="d-flex align-items-center">
-        @if (Auth::user()->role === "admin")
-            <a class="btn btn-secondary mb-3 mt-3" href="{{ route("admin.users.index") }}">Torna all'elenco</a>
-        @endif
+        <h2 class="mb-4">Profilo</h2>
         @if(Session::has("message"))
             <div class="alert alert-success ml-auto my-auto">{{ Session::get("message") }}</div>
         @endif
@@ -34,7 +32,5 @@
         </div>
     </div>
 </div>
-    <div class="col-lg-4">
-        @include("admin.partials.sidebar")
-    </div>
+
 @endsection
