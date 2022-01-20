@@ -29,14 +29,17 @@
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at }}</td>
                     <td>
-                        <form action="{{ route("admin.users.update", $user->id) }}" method="POST" class="d-flex">
+                        <form action="{{ route("admin.users.update", $user->id) }}" method="POST" class="d-flex" disabled>
                             @csrf
                             @method("PUT")
-                            <select name="role" class="form-control mr-2">
+                            <input type="hidden" name="name" value="{{$user->name}}"/>
+                            <input type="hidden" name="email" value="{{$user->email}}"/>
+                            <select name="role" class="form-control mr-2" {{ $user->id === Auth::id() ? "disabled" : "" }}>
                                 <option value="user" {{ $user->role === "user" ? "selected" : ""  }}>Utente</option> 
                                 <option value="admin" {{ $user->role === "admin" ? "selected" : ""  }}>Amministratore</option>   
                             </select>
-                            <button class="btn btn-primary">Salva</button>
+                            <button class="btn btn-primary" {{ $user->id === Auth::id() ? "disabled" : "" }}>Salva</button>
+                            
                         </form>
                     </td>
                     <td class="d-flex">

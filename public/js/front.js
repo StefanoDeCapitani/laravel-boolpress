@@ -199,7 +199,6 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     axios.get("http://127.0.0.1:8000/api/posts").then(function (resp) {
-      console.log(resp.data.data);
       _this.posts = resp.data.data;
     });
   }

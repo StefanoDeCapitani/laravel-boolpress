@@ -3,21 +3,29 @@
 @section('main-content')
 <div class="col-lg-8">
     <div class="d-flex align-items-center">
-        <a class="btn btn-secondary mb-3 mt-3" href="{{ route("admin.posts.index") }}">Torna all'elenco</a>
+        @if (Auth::user()->role === "admin")
+            <a class="btn btn-secondary mb-3 mt-3" href="{{ route("admin.users.index") }}">Torna all'elenco</a>
+        @endif
         @if(Session::has("message"))
-        <div class="alert alert-success ml-auto my-auto">{{ Session::get("message") }}</div>
+            <div class="alert alert-success ml-auto my-auto">{{ Session::get("message") }}</div>
         @endif
     </div>
     <div class="card mb-4">
-        <a href="#"><img class="card-img-top" src="{{ $post->coverImg }}" alt="{{ $post->title }}" /></a>
+        <a href="#" class="d-flex justify-content-center p-5">
+            <div class="w-25">
+                <img class="card-img-top w-100" src="{{ $user->image }}" alt="{{ $user->title }}" />
+            </div>
+        </a>
         <div class="card-body">
-            <div class="small text-muted">Di {{ $post->author }}</div>
-            <h2>{{ $post->title }}</h2>
-            <h5>{{ $post->subtitle }}</h5>
-            <p class="card-text">{!! $post->content !!}</p>
+            <h2>Utente: {{ $user->name }}</h2>
+            <h5>Ruolo: {{ $user->role }}</h5>
+            <p>Email: {{ $user->email }}</p>
+            <p class="card-text">Data iscrizione: {{ $user->created_at }}</p>
             <div class="d-flex">
-                <a class="btn btn-primary mr-3" href="{{ route("admin.posts.edit", $post->id) }}">Modifica</a>
-                <form action="{{ route("admin.posts.destroy", $post->id) }}" method="POST">
+                @if($user->id === Auth::id())
+                    <a class="btn btn-primary mr-3" href="{{ route("admin.users.edit", $user->id) }}">Modifica</a>
+                @endif
+                <form action="{{ route("admin.users.destroy", $user->id) }}" method="POST">
                     @csrf
                     @method("DELETE")
                     <button class="btn btn-danger">Elimina</button>

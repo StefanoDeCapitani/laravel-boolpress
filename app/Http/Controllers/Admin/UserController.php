@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateUser;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UserController extends Controller
 {
@@ -28,8 +30,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
-    }
+        return redirect()->route("admin.users.index");
+    } 
 
     /**
      * Store a newly created resource in storage.
@@ -39,8 +41,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        return redirect()->route("admin.users.index");
+    } 
 
     /**
      * Display the specified resource.
@@ -59,9 +61,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        //
+        return view("admin.users.edit", compact("user"));
     }
 
     /**
@@ -73,11 +75,13 @@ class UserController extends Controller
      */
     public function update(UpdateUser $request, User $user)
     {
-        $user->role = $request->validated()["role"];
+        $data = $request->validated();
+        
+        $user->update($data);
 
-        $user->save();
+        $message = "Il nuovo ruolo dell'utente " . $user->name . " è " . $user->role;
 
-        return redirect()->route("admin.users.index");
+        return redirect()->route("admin.users.index")->with("message", $message);
     }
 
     /**
@@ -86,8 +90,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()->route("admin.users.index")->with("message", "Utente cancellato con successo.");
     }
 }

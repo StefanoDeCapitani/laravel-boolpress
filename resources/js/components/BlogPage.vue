@@ -38,7 +38,6 @@ export default {
     },
     mounted() {
         axios.get("http://127.0.0.1:8000/api/posts").then((resp) => {
-            console.log(resp.data.data);
             this.posts = resp.data.data;
         });
     },

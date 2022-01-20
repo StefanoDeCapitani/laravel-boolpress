@@ -2,56 +2,40 @@
 
 @section('main-content')
 <div class="col-lg-8">
-    <form action="{{ route("admin.posts.update", $post->id) }}" method="POST" class="mb-5">
+    <form action="{{ route("admin.users.update", $user->id) }}" method="POST" class="mb-5">
         @csrf
         @method('put')
-        <div class="mb-3">
-            <label for="title" class="form-label">Titolo</label>
-            <input type="text" class="form-control @error("title") is-invalid @enderror" 
-            id="title" name="title" value="{{ old('title') ?? $post->title }}">
-            @error('title')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="subtitle" class="form-label">Sottotitolo</label>
-            <input type="text" class="form-control @error("sub-title") is-invalid @enderror" 
-            id="subtitle" name="subtitle" value="{{ old('subtitle') ?? $post->subtitle }}">
-            @error("subtitle") 
-                <div class="invalid-feedback">{{ $message }}</div> 
-            @enderror
-        </div>
-        <div class="mb-3 text-editor">
-            <label for="content" class="form-label">Contenuto</label>
-            <textarea class="form-control  @error("content") is-invalid @enderror" 
-            id="content" name="content" rows="6">
-                {{ old('content') ?? $post->content }}
-            </textarea>
-            @error("content") 
-                <div class="invalid-feedback">{{ $message }}</div> 
-            @enderror
-        </div>
-        <div class="mb-3">
-            <label for="author" class="form-label">Autore</label>
-            <input type="text" class="form-control @error("author") is-invalid @enderror" 
-            id="author" name="author" value="{{ old('author') ?? $post->author }}">
-            @error("author") 
-                <div class="invalid-feedback">{{ $message }}</div> 
-            @enderror
-        </div>
-        <div class="mb-3">
+{{--         <div class="mb-3">
             <label for="coverImg" class="form-label">URL immagine</label>
             <input type="text" class="form-control @error("coverImg") is-invalid @enderror" 
-            id="coverImg" name="coverImg" value="{{ old('coverImg') ?? $post->coverImg }}">
+            id="coverImg" name="coverImg" value="{{ old('coverImg') ?? $user->coverImg }}">
             @error("coverImg") 
                 <div class="invalid-feedback">{{ $message }}</div> 
             @enderror
+        </div> --}}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control @error("name") is-invalid @enderror" 
+            id="name" name="name" value="{{ old('name') ?? $user->name }}">
+            @error('name')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+        <div class="mb-3 text-editor">
+            <label for="email" class="form-label">Email</label>
+            <input type="text" class="form-control  @error("email") is-invalid @enderror" 
+            id="email" name="email" value="{{ old('email') ?? $user->email }}">
+            @error("email") 
+                <div class="invalid-feedback">{{ $message }}</div> 
+            @enderror
         </div>
         <div class="mb-3">
-            <label for="category" class="form-label">Categoria</label>
-            <input type="text" class="form-control @error("category") is-invalid @enderror" 
-            id="category" name="category" value="{{ old('category') ?? $post->category }}">
-            @error("category") 
+            <label for="role" class="form-label">Ruolo</label>
+            <select name="role" class="form-control" @error("role") is-invalid @enderror {{ Auth::user()->role === "user" ? "disabled" : "" }}>
+                <option value="user" {{ $user->role === "user" ? "selected" : ""  }}>Utente</option> 
+                <option value="admin" {{ $user->role === "admin" ? "selected" : ""  }}>Amministratore</option>   
+            </select>
+            @error("role") 
                 <div class="invalid-feedback">{{ $message }}</div> 
             @enderror
         </div>
@@ -63,8 +47,4 @@
 <div class="col-lg-4">
     @include("admin.partials.sidebar")
 </div>
-@endsection
-
-@section("body-additional-scripts")
-    @include("admin.partials.text_editor_scripts")
 @endsection

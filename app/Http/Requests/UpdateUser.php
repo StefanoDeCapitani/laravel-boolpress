@@ -29,7 +29,9 @@ class UpdateUser extends FormRequest
     public function rules()
     {
         return [
-            "role" => [ "required", Rule::in(['admin', 'user'])],
+            "name" => "required",
+            "email" => "required|email|email:rfc,dns",
+            "role" => [ Rule::in(['admin', 'user']) ],
         ];
     }
 }
