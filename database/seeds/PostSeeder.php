@@ -19,9 +19,10 @@ class PostSeeder extends Seeder
                 "title" => $faker->catchPhrase(),
                 "subtitle" => $faker->sentence(8),
                 "content" => "<p>" . $faker->paragraphs(15, true) . "</p>",
-                "author" => $faker->firstName(null) . " " . $faker->lastName(),
+                "user_id" => $faker->numberBetween(0, 9),
                 "coverImg" => "http://127.0.0.1:8000/storage/images/blog-post-cover.jpeg",
-                "category" => $faker->word()
+                "category" => $faker->word(),
+                "created_at" => date("Y-m-d H:i:s"),
             ]);
         }
     }

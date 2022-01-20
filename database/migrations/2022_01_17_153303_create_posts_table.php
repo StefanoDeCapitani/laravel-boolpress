@@ -18,7 +18,7 @@ class CreatePostsTable extends Migration
             $table->string("title");
             $table->string("subtitle")->nullable();
             $table->longText("content");
-            $table->string("author");
+            $table->foreignId("user_id")->constrained();
             $table->string("coverImg")->nullable();
             $table->string("category");
             $table->timestamps();

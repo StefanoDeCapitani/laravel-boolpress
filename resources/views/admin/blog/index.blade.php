@@ -13,6 +13,7 @@
     <table class="table table-hover">
         <thead>
           <tr>
+            <th></th>
             <th scope="col">Post</th>
             <th scope="col">Titolo</th>
             <th scope="col">Autore</th>
@@ -24,13 +25,18 @@
         <tbody>
             @foreach ($posts as $post)
                 <tr>
+                    <th>{{ $loop->iteration }}</th>
                     <th scope="row"><img class="thumbnail" src="{{ $post->coverImg }}"
                         alt="{{ $post->title }}" /></th>
                     <td><a href="{{ route("admin.posts.show", $post->id) }}">{{ $post->title }}</a></td>
-                    <td>{{ $post->author }}</td>
+                    <td>
+                        <a href="{{ route("admin.users.show", $post->user->id) }}">{{ $post->user->name}}</a>
+                    </td>
                     <td>{{ $post->category }}</td>
                     <td>
+                        @if(Auth::id() === $post->user->id)
                         <a class="btn btn-primary" href="{{ route("admin.posts.edit",  $post->id) }}">Modifica</a>
+                        @endif
                     </td>
                     <td>
                         <form action="{{ route("admin.posts.destroy", $post->id) }}" method="POST">

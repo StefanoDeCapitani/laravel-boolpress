@@ -33,14 +33,6 @@
             @enderror
         </div>
         <div class="mb-3">
-            <label for="author" class="form-label">Autore</label>
-            <input type="text" class="form-control @error("author") is-invalid @enderror" 
-            id="author" name="author" value="{{ old('author')}}">
-            @error("author") 
-                <div class="invalid-feedback">{{ $message }}</div> 
-            @enderror
-        </div>
-        <div class="mb-3">
             <label for="coverImg" class="form-label">URL immagine</label>
             <input type="text" class="form-control @error("coverImg") is-invalid @enderror" 
             id="coverImg" name="coverImg" value="{{ old('coverImg')}}">

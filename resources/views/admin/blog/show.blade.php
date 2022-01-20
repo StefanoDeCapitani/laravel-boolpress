@@ -11,12 +11,14 @@
     <div class="card mb-4">
         <a href="#"><img class="card-img-top" src="{{ $post->coverImg }}" alt="{{ $post->title }}" /></a>
         <div class="card-body">
-            <div class="small text-muted">Di {{ $post->author }}</div>
+            <div class="small text-muted">Di <a href="{{ route("admin.users.show", $post->user->id) }}">{{ $post->user->name }}</a></div>
             <h2>{{ $post->title }}</h2>
             <h5>{{ $post->subtitle }}</h5>
             <p class="card-text">{!! $post->content !!}</p>
             <div class="d-flex">
-                <a class="btn btn-primary mr-3" href="{{ route("admin.posts.edit", $post->id) }}">Modifica</a>
+                @if(Auth::id() === $post->user->id)
+                    <a class="btn btn-primary mr-3" href="{{ route("admin.posts.edit", $post->id) }}">Modifica</a>
+                @endif
                 <form action="{{ route("admin.posts.destroy", $post->id) }}" method="POST">
                     @csrf
                     @method("DELETE")

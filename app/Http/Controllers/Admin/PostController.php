@@ -6,6 +6,7 @@ use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdatePost;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -16,7 +17,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts = null;
+
+        if(Auth::user()->role === "admin"){
+            $posts = Post::all();
+        } else {
+            $posts = Post::where("user_id", Auth::id())->with("user")->get();
+        }
 
         return view("admin.blog.index", compact("posts"));
     }
@@ -39,9 +46,10 @@ class PostController extends Controller
      */
     public function store(StoreUpdatePost $request)
     {
-        $post = Post::create($request->validated());   
+        $data = $request->validated();
+        $data["user_id"] = Auth::id();
 
-/*         $request->session()->flash("message", "Nuovo post creato con successo!"); */
+        $post = Post::create($data);   
 
         return redirect()->route("admin.posts.show", $post->id)->with("message", "Nuovo post creato con successo!");
     }
@@ -52,8 +60,10 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($id)
     {
+        $post = Post::where("id", $id)->with("user")->get()[0];
+
         return view("admin.blog.show", compact("post"));
     }
 

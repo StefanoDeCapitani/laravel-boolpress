@@ -31,7 +31,8 @@
         </div>
         <div class="mb-3">
             <label for="role" class="form-label">Ruolo</label>
-            <select name="role" class="form-control" @error("role") is-invalid @enderror {{ Auth::user()->role === "user" ? "disabled" : "" }}>
+            <select name="role" class="form-control" @error("role") is-invalid @enderror 
+            {{ (Auth::user()->role === "user" ||  Auth::id() === $user->id) ? "disabled" : "" }}>
                 <option value="user" {{ $user->role === "user" ? "selected" : ""  }}>Utente</option> 
                 <option value="admin" {{ $user->role === "admin" ? "selected" : ""  }}>Amministratore</option>   
             </select>

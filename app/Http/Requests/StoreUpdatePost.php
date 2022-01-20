@@ -27,7 +27,6 @@ class StoreUpdatePost extends FormRequest
             "title" => "required",
             "subtitle" => "required",
             "content" => "required",
-            "author" => "required",
             "coverImg" => "required|url",
             "category" =>  "required"
         ];
