@@ -23,7 +23,7 @@ class PostController extends Controller
         if(Auth::user()->role === "admin"){
             $posts = Post::all();
         } else {
-            $posts = Post::where("user_id", Auth::id())->with("user")->with("category")->get();
+            $posts = Post::where("user_id", Auth::id())->with("user")->with("category")->with("tags")->get();
         }
 
         return view("admin.blog.index", compact("posts"));
@@ -65,7 +65,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::where("id", $id)->with("user")->get()[0];
+        $post = Post::where("id", $id)->with("user")->with("tags")->get()[0];
 
         $categories = Category::all();
 
