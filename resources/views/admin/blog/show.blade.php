@@ -26,6 +26,12 @@
                 <h2>{{ $post->title }}</h2>
                 <h5>{{ $post->subtitle }}</h5>
                 <p class="card-text">{!! $post->content !!}</p>
+                <div class="mb-4">
+                    <span class="mr-2"> Tags: </span>
+                    @foreach ($post->tags as $tag)
+                        <a href="#" class="badge {{ $tag->style }} p-2 text-light">{{ $tag->name }}</a>
+                    @endforeach
+                </div>
                 <div class="d-flex">
                     @if(Auth::id() === $post->user->id)
                         <a class="btn btn-primary mr-3" href="{{ route("admin.posts.edit", $post->id) }}">Modifica</a>
