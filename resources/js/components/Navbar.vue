@@ -15,13 +15,9 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul
-                    class="navbar-nav ml-auto mb-2 mb-lg-0"
-                    ref="ul"
-                    @click="setActiveLink"
-                >
+                <ul class="navbar-nav ml-auto mb-2 mb-lg-0" ref="ul">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                        <router-link class="nav-link" to="/">Home</router-link>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#!">About</a>
@@ -30,9 +26,9 @@
                         <a class="nav-link" href="#!">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/posts"
-                            >Blog</router-link
-                        >
+                        <router-link class="nav-link" to="/posts">
+                            Blog
+                        </router-link>
                     </li>
                 </ul>
                 <!-- Right Side Of Navbar -->
@@ -54,14 +50,16 @@
 export default {
     name: "Navbar",
     mounted() {
-        this.setActiveLink();
+        /*         this.resetActiveLink(); */
     },
     methods: {
-        setActiveLink() {
-            this.$refs.ul
-                .querySelector(".router-link-active")
-                .classList.add("active");
-        },
+        /*         resetActiveLink() {
+            let previousActiveElements =
+                this.$refs.ul.querySelectorAll(".active");
+            previousActiveElements.forEach((el) => {
+                el.classList.remove("active");
+            });
+        }, */
     },
 };
 </script>

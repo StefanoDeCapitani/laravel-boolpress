@@ -1,6 +1,6 @@
 <template>
     <div>
-        <blog-header />
+        <the-header />
         <div class="container mt-5">
             <div class="row">
                 <!-- Blog entries-->
@@ -19,14 +19,14 @@
 <script>
 import SideBar from "./partials/SideBar.vue";
 import BlogPosts from "./partials/BlogPosts.vue";
-import BlogHeader from "./partials/BlogHeader.vue";
+import TheHeader from "../TheHeader.vue";
 
 export default {
     name: "PostsIndex",
     components: {
         SideBar,
         BlogPosts,
-        BlogHeader,
+        TheHeader,
     },
     data() {
         return {

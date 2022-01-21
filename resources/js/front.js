@@ -11,10 +11,12 @@ import VueRouter from "vue-router";
 
 Vue.use(VueRouter);
 
+import Home from "./components/Home";
 import PostsIndex from "./components/posts/PostsIndex";
 import PostsShow from "./components/posts/PostsShow";
 
 const routes = [
+    { path: "", name: "home", component: Home },
     { path: "/posts", name: "postsIndex", component: PostsIndex },
     { path: "/posts/:id", name: "postsShow", component: PostsShow },
 ];
@@ -24,6 +26,7 @@ const routes = [
 // keep it simple for now.
 const router = new VueRouter({
     mode: "history",
+    linkExactActiveClass: "active",
     routes: routes,
 });
 
