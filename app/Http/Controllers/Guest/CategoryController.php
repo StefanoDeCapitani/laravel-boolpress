@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Guest;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PostResource;
+use App\Http\Resources\CategoryResource;
+use App\Category;
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return PostResource::collection(Post::all());
+        return CategoryResource::collection(Category::all());
     }
 
     /**
@@ -48,7 +49,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return PostResource::collection($post);
+        //
     }
 
     /**

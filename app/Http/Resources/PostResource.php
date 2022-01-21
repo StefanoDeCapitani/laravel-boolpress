@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class PostResource extends JsonResource
 {
@@ -14,12 +15,25 @@ class PostResource extends JsonResource
      */
     public function toArray($request)
     {
+
+        if($request->path() === "api/guest/posts"){
+            return [
+                "id" => $this->id,
+                "title" => $this->title,
+                "subtitle" => $this->subtitle,
+                "content" => Str::limit(trim(strip_tags($this->content)) , 200, "..."),
+                "user" => $this->user,
+                "coverImg" => $this->coverImg,
+                "category" => $this->category,
+            ];
+        }
+
         return [
             "id" => $this->id,
             "title" => $this->title,
             "subtitle" => $this->subtitle,
             "content" => $this->content,
-            "author" => $this->author,
+            "user" => $this->user,
             "coverImg" => $this->coverImg,
             "category" => $this->category,
         ];

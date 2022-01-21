@@ -159,6 +159,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SideBar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SideBar */ "./resources/js/components/SideBar.vue");
 /* harmony import */ var _BlogPosts_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BlogPosts.vue */ "./resources/js/components/BlogPosts.vue");
 /* harmony import */ var _BlogHeader_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./BlogHeader.vue */ "./resources/js/components/BlogHeader.vue");
+/* harmony import */ var _TheFooter_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./TheFooter.vue */ "./resources/js/components/TheFooter.vue");
 //
 //
 //
@@ -178,6 +179,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
@@ -188,18 +191,23 @@ __webpack_require__.r(__webpack_exports__);
     SideBar: _SideBar__WEBPACK_IMPORTED_MODULE_1__["default"],
     BlogPosts: _BlogPosts_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     BlogHeader: _BlogHeader_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    Navbar: _Navbar__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Navbar: _Navbar__WEBPACK_IMPORTED_MODULE_0__["default"],
+    TheFooter: _TheFooter_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
-      posts: null
+      posts: null,
+      categories: null
     };
   },
-  mounted: function mounted() {
+  created: function created() {
     var _this = this;
 
-    axios.get("http://127.0.0.1:8000/api/posts").then(function (resp) {
+    axios.get("http://127.0.0.1:8000/api/guest/posts").then(function (resp) {
       _this.posts = resp.data.data;
+    });
+    axios.get("http://127.0.0.1:8000/api/guest/categories").then(function (resp) {
+      _this.categories = resp.data.data;
     });
   }
 });
@@ -277,8 +285,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "BlogPosts",
   props: {
@@ -290,9 +296,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   computed: {
-    headlessPostsArray: function headlessPostsArray() {
-      return this.postsArray.slice(1);
+    featuredPost: function featuredPost() {
+      return this.postsArray ? this.postsArray[0] : null;
+    },
+    nonFeaturedPosts: function nonFeaturedPosts() {
+      return this.postsArray ? this.postsArray.slice(1) : [];
     }
+  },
+  mounted: function mounted() {
+    this.postsArray = this.posts;
   },
   watch: {
     posts: function posts(val) {
@@ -431,9 +443,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "SideBar",
+  props: {
+    categories: Array
+  },
+  data: function data() {
+    return {
+      categoriesArray: null
+    };
+  },
+  computed: {
+    categoryColumns: function categoryColumns() {
+      if (this.categoriesArray) {
+        var columns = [[], []];
+
+        for (var i = 0; i < this.categoriesArray.length; i++) {
+          if (i % 2 === 0) {
+            columns[0].push(this.categoriesArray[i]);
+          }
+
+          if (i % 2 !== 0) {
+            columns[1].push(this.categoriesArray[i]);
+          }
+        }
+
+        return columns;
+      }
+
+      return null;
+    }
+  },
+  mounted: function mounted() {
+    this.categoriesArray = this.categories;
+  },
+  watch: {
+    categories: function categories(val) {
+      this.categoriesArray = val;
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TheFooter.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TheFooter.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "SideBar"
+  name: "TheFooter"
 });
 
 /***/ }),
@@ -993,9 +1066,16 @@ var render = function () {
             1
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "col-lg-4" }, [_c("side-bar")], 1),
+          _c(
+            "div",
+            { staticClass: "col-lg-4" },
+            [_c("side-bar", { attrs: { categories: _vm.categories } })],
+            1
+          ),
         ]),
       ]),
+      _vm._v(" "),
+      _c("the-footer"),
     ],
     1
   )
@@ -1028,8 +1108,8 @@ var render = function () {
         _c("img", {
           staticClass: "card-img-top",
           attrs: {
-            src: _vm.postsArray[0].coverImg,
-            alt: _vm.postsArray[0].title,
+            src: _vm.featuredPost ? _vm.featuredPost.coverImg : "",
+            alt: _vm.featuredPost ? _vm.featuredPost.title : "",
           },
         }),
       ]),
@@ -1038,20 +1118,24 @@ var render = function () {
         _c("div", { staticClass: "small text-muted" }, [
           _vm._v(
             "\n                " +
-              _vm._s(_vm.postsArray[0].author) +
+              _vm._s(_vm.featuredPost ? _vm.featuredPost.user.name : "") +
               "\n            "
           ),
         ]),
         _vm._v(" "),
         _c("h2", { staticClass: "card-title h4" }, [
-          _vm._v(_vm._s(_vm.postsArray[0].title)),
+          _vm._v(
+            "\n                " +
+              _vm._s(_vm.featuredPost ? _vm.featuredPost.title : "") +
+              "\n            "
+          ),
         ]),
         _vm._v(" "),
         _c("p", { staticClass: "card-text" }, [
           _c("span", {
             domProps: {
               innerHTML: _vm._s(
-                _vm.postsArray[0].content.slice(0, 200).trim() + "..."
+                _vm.featuredPost ? _vm.featuredPost.content : ""
               ),
             },
           }),
@@ -1066,7 +1150,7 @@ var render = function () {
     _c(
       "div",
       { staticClass: "row" },
-      _vm._l(_vm.headlessPostsArray, function (post) {
+      _vm._l(_vm.nonFeaturedPosts, function (post) {
         return _c("div", { key: post.id, staticClass: "col-lg-6" }, [
           _c("div", { staticClass: "card mb-4" }, [
             _c("a", { attrs: { href: "#!" } }, [
@@ -1080,7 +1164,7 @@ var render = function () {
               _c("div", { staticClass: "small text-muted" }, [
                 _vm._v(
                   "\n                        " +
-                    _vm._s(post.author) +
+                    _vm._s(post.user.name) +
                     "\n                    "
                 ),
               ]),
@@ -1247,6 +1331,112 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "side-bar" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "card mb-4" }, [
+      _c("div", { staticClass: "card-header" }, [_vm._v("Categories")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          _vm._l(_vm.categoryColumns, function (column, i) {
+            return _c("div", { key: i, staticClass: "col-sm-6" }, [
+              _c(
+                "ul",
+                { staticClass: "list-unstyled mb-0" },
+                _vm._l(column, function (category) {
+                  return _c("li", { key: category.id }, [
+                    _c("a", { attrs: { href: "#!" } }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(category ? category.name : "") +
+                          "\n                            "
+                      ),
+                    ]),
+                  ])
+                }),
+                0
+              ),
+            ])
+          }),
+          0
+        ),
+      ]),
+    ]),
+    _vm._v(" "),
+    _vm._m(1),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card mb-4" }, [
+      _c("div", { staticClass: "card-header" }, [_vm._v("Search")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("div", { staticClass: "input-group" }, [
+          _c("input", {
+            staticClass: "form-control",
+            attrs: {
+              type: "text",
+              placeholder: "Enter search term...",
+              "aria-label": "Enter search term...",
+              "aria-describedby": "button-search",
+            },
+          }),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary",
+              attrs: { id: "button-search", type: "button" },
+            },
+            [_vm._v("\n                    Go!\n                ")]
+          ),
+        ]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card mb-4" }, [
+      _c("div", { staticClass: "card-header" }, [_vm._v("Side Widget")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _vm._v(
+          "\n            You can put anything you want inside of these side widgets. They\n            are easy to use, and feature the Bootstrap 5 card component!\n        "
+        ),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TheFooter.vue?vue&type=template&id=2a04c4de&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TheFooter.vue?vue&type=template&id=2a04c4de& ***!
+  \************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
   return _vm._m(0)
 }
 var staticRenderFns = [
@@ -1254,79 +1444,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "side-bar" }, [
-      _c("div", { staticClass: "card mb-4" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Search")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "input-group" }, [
-            _c("input", {
-              staticClass: "form-control",
-              attrs: {
-                type: "text",
-                placeholder: "Enter search term...",
-                "aria-label": "Enter search term...",
-                "aria-describedby": "button-search",
-              },
-            }),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-primary",
-                attrs: { id: "button-search", type: "button" },
-              },
-              [_vm._v("\n                    Go!\n                ")]
-            ),
-          ]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card mb-4" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Categories")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "row" }, [
-            _c("div", { staticClass: "col-sm-6" }, [
-              _c("ul", { staticClass: "list-unstyled mb-0" }, [
-                _c("li", [
-                  _c("a", { attrs: { href: "#!" } }, [_vm._v("Web Design")]),
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("a", { attrs: { href: "#!" } }, [_vm._v("HTML")]),
-                ]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("a", { attrs: { href: "#!" } }, [_vm._v("Freebies")]),
-                ]),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-sm-6" }, [
-              _c("ul", { staticClass: "list-unstyled mb-0" }, [
-                _c("li", [
-                  _c("a", { attrs: { href: "#!" } }, [_vm._v("JavaScript")]),
-                ]),
-                _vm._v(" "),
-                _c("li", [_c("a", { attrs: { href: "#!" } }, [_vm._v("CSS")])]),
-                _vm._v(" "),
-                _c("li", [
-                  _c("a", { attrs: { href: "#!" } }, [_vm._v("Tutorials")]),
-                ]),
-              ]),
-            ]),
-          ]),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card mb-4" }, [
-        _c("div", { staticClass: "card-header" }, [_vm._v("Side Widget")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _vm._v(
-            "\n            You can put anything you want inside of these side widgets. They\n            are easy to use, and feature the Bootstrap 5 card component!\n        "
-          ),
+    return _c("footer", { staticClass: "py-5 bg-dark mt-5" }, [
+      _c("div", { staticClass: "container" }, [
+        _c("p", { staticClass: "m-0 text-center text-white" }, [
+          _vm._v("\n            Copyright © Your Website 2021\n        "),
         ]),
       ]),
     ])
@@ -13925,6 +14046,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SideBar_vue_vue_type_template_id_223abea1___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SideBar_vue_vue_type_template_id_223abea1___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/TheFooter.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/TheFooter.vue ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TheFooter_vue_vue_type_template_id_2a04c4de___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TheFooter.vue?vue&type=template&id=2a04c4de& */ "./resources/js/components/TheFooter.vue?vue&type=template&id=2a04c4de&");
+/* harmony import */ var _TheFooter_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TheFooter.vue?vue&type=script&lang=js& */ "./resources/js/components/TheFooter.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TheFooter_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TheFooter_vue_vue_type_template_id_2a04c4de___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TheFooter_vue_vue_type_template_id_2a04c4de___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TheFooter.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TheFooter.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/TheFooter.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TheFooter_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TheFooter.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TheFooter.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TheFooter_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TheFooter.vue?vue&type=template&id=2a04c4de&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/TheFooter.vue?vue&type=template&id=2a04c4de& ***!
+  \******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TheFooter_vue_vue_type_template_id_2a04c4de___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TheFooter.vue?vue&type=template&id=2a04c4de& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TheFooter.vue?vue&type=template&id=2a04c4de&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TheFooter_vue_vue_type_template_id_2a04c4de___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TheFooter_vue_vue_type_template_id_2a04c4de___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 

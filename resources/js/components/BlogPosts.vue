@@ -5,21 +5,19 @@
             <a href="#!">
                 <img
                     class="card-img-top"
-                    :src="postsArray[0].coverImg"
-                    :alt="postsArray[0].title"
+                    :src="featuredPost ? featuredPost.coverImg : ''"
+                    :alt="featuredPost ? featuredPost.title : ''"
                 />
             </a>
             <div class="card-body">
                 <div class="small text-muted">
-                    {{ postsArray[0].author }}
+                    {{ featuredPost ? featuredPost.user.name : "" }}
                 </div>
-                <h2 class="card-title h4">{{ postsArray[0].title }}</h2>
+                <h2 class="card-title h4">
+                    {{ featuredPost ? featuredPost.title : "" }}
+                </h2>
                 <p class="card-text">
-                    <span
-                        v-html="
-                            postsArray[0].content.slice(0, 200).trim() + '...'
-                        "
-                    >
+                    <span v-html="featuredPost ? featuredPost.content : ''">
                     </span>
                 </p>
                 <a class="btn btn-primary" href="#">Read more →</a>
@@ -30,7 +28,7 @@
         <div class="row">
             <div
                 class="col-lg-6"
-                v-for="post in headlessPostsArray"
+                v-for="post in nonFeaturedPosts"
                 :key="post.id"
             >
                 <!-- Blog post-->
@@ -43,7 +41,7 @@
                     /></a>
                     <div class="card-body">
                         <div class="small text-muted">
-                            {{ post.author }}
+                            {{ post.user.name }}
                         </div>
                         <h2 class="card-title h4">{{ post.title }}</h2>
                         <p class="card-text">
@@ -74,9 +72,15 @@ export default {
         };
     },
     computed: {
-        headlessPostsArray() {
-            return this.postsArray.slice(1);
+        featuredPost() {
+            return this.postsArray ? this.postsArray[0] : null;
         },
+        nonFeaturedPosts() {
+            return this.postsArray ? this.postsArray.slice(1) : [];
+        },
+    },
+    mounted() {
+        this.postsArray = this.posts;
     },
     watch: {
         posts: function (val) {
