@@ -36,6 +36,7 @@ class PostResource extends JsonResource
             "user" => $this->user,
             "coverImg" => $this->coverImg,
             "category" => $this->category,
+            "tags" => $this->tags,
         ];
     }
 }

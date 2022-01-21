@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdatePost;
 use Illuminate\Support\Facades\Auth;
 use App\Category;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -37,8 +38,9 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view("admin.blog.create", compact("categories"));
+        return view("admin.blog.create", compact("categories", "tags"));
     }
 
     /**
@@ -52,7 +54,9 @@ class PostController extends Controller
         $data = $request->validated();
         $data["user_id"] = Auth::id();
 
-        $post = Post::create($data);   
+        $post = Post::create($data);  
+        $post->tags()->sync($request->tags);
+        $post->save();
 
         return redirect()->route("admin.posts.show", $post->id)->with("message", "Nuovo post creato con successo!");
     }
@@ -68,8 +72,9 @@ class PostController extends Controller
         $post = Post::where("id", $id)->with("user")->with("tags")->get()[0];
 
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view("admin.blog.show", compact("post", "categories"));
+        return view("admin.blog.show", compact("post", "categories", "tags"));
     }
 
     /**
@@ -81,8 +86,9 @@ class PostController extends Controller
     public function edit(Post $post, Request $request)
     {
         $categories = Category::all();
+        $tags = Tag::all();
 
-        return view("admin.blog.edit", compact("post", "categories"));
+        return view("admin.blog.edit", compact("post", "categories", "tags"));
     }
 
     /**
@@ -95,6 +101,7 @@ class PostController extends Controller
     public function update(StoreUpdatePost $request, Post $post)
     {   
         $post->update($request->validated());
+        $post->tags()->sync($request->tags);
             
         return redirect()->route("admin.posts.show", $post->id)->with("message", "Modifiche salvate con successo!");
     }
@@ -107,6 +114,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->tags()->detach();
         $post->delete();
 
         return redirect()->route("admin.posts.index")->with("message", "Post eliminato con successo!");

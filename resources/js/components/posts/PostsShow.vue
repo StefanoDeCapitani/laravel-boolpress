@@ -8,7 +8,7 @@
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">
-                    <side-bar :categories="categories" />
+                    <side-bar :categories="categories" :tags="tags" />
                 </div>
             </div>
         </div>
@@ -29,6 +29,7 @@ export default {
         return {
             post: null,
             categories: null,
+            tags: null,
         };
     },
     created() {
@@ -39,6 +40,9 @@ export default {
         });
         axios.get("http://127.0.0.1:8000/api/guest/categories").then((resp) => {
             this.categories = resp.data.data;
+        });
+        axios.get("http://127.0.0.1:8000/api/guest/tags").then((resp) => {
+            this.tags = resp.data.data;
         });
     },
 };

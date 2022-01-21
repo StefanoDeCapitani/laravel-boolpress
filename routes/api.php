@@ -23,4 +23,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::middleware('api')->namespace("Guest")->name("guest.")->prefix("guest")->group(function(){
     Route::resource("/posts", "PostController"); 
     Route::resource("/categories", "CategoryController");
+    Route::resource("/tags", "TagController");
 });

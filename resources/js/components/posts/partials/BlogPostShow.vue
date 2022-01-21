@@ -18,6 +18,17 @@
                 <h2>{{ post ? post.title : "" }}</h2>
                 <h5 class="mb-4">{{ post ? post.subtitle : "" }}</h5>
                 <p class="card-text" v-html="post ? post.content : ''"></p>
+                <div class="w-75" v-if="postTags">
+                    <span class="mr-2"> Tags: </span>
+                    <a
+                        v-for="tag in postTags"
+                        :key="tag.id"
+                        href="#"
+                        :class="tag.style"
+                        class="badge p-2 m-1"
+                        >{{ tag.name }}</a
+                    >
+                </div>
             </div>
         </div>
     </div>
@@ -33,6 +44,11 @@ export default {
         return {
             post: null,
         };
+    },
+    computed: {
+        postTags() {
+            return this.post ? this.post.tags : null;
+        },
     },
     mounted() {
         this.post = this.blogpost;

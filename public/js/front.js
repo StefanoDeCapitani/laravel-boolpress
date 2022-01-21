@@ -382,7 +382,8 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       post: null,
-      categories: null
+      categories: null,
+      tags: null
     };
   },
   created: function created() {
@@ -394,6 +395,9 @@ __webpack_require__.r(__webpack_exports__);
     });
     axios.get("http://127.0.0.1:8000/api/guest/categories").then(function (resp) {
       _this.categories = resp.data.data;
+    });
+    axios.get("http://127.0.0.1:8000/api/guest/tags").then(function (resp) {
+      _this.tags = resp.data.data;
     });
   }
 });
@@ -434,6 +438,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "BlogPostShow",
   props: {
@@ -443,6 +458,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       post: null
     };
+  },
+  computed: {
+    postTags: function postTags() {
+      return this.post ? this.post.tags : null;
+    }
   },
   mounted: function mounted() {
     this.post = this.blogpost;
@@ -636,17 +656,30 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SideBar",
   props: {
-    categories: Array
+    categories: Array,
+    tags: Array
   },
   data: function data() {
     return {
-      categoriesArray: null
+      categoriesArray: null,
+      tagsArray: null
     };
   },
   computed: {
+    sixTags: function sixTags() {
+      return this.tagsArray ? this.tagsArray.slice(0, 6) : null;
+    },
     categoryColumns: function categoryColumns() {
       if (this.categoriesArray) {
         var columns = [[], []];
@@ -669,10 +702,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.categoriesArray = this.categories;
+    this.tagsArray = this.tags;
   },
   watch: {
     categories: function categories(val) {
       this.categoriesArray = val;
+    },
+    tags: function tags(val) {
+      this.tagsArray = val;
     }
   }
 });
@@ -1498,7 +1535,11 @@ var render = function () {
         _c(
           "div",
           { staticClass: "col-lg-4" },
-          [_c("side-bar", { attrs: { categories: _vm.categories } })],
+          [
+            _c("side-bar", {
+              attrs: { categories: _vm.categories, tags: _vm.tags },
+            }),
+          ],
           1
         ),
       ]),
@@ -1568,6 +1609,30 @@ var render = function () {
             staticClass: "card-text",
             domProps: { innerHTML: _vm._s(_vm.post ? _vm.post.content : "") },
           }),
+          _vm._v(" "),
+          _vm.postTags
+            ? _c(
+                "div",
+                { staticClass: "w-75" },
+                [
+                  _c("span", { staticClass: "mr-2" }, [_vm._v(" Tags: ")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.postTags, function (tag) {
+                    return _c(
+                      "a",
+                      {
+                        key: tag.id,
+                        staticClass: "badge p-2 m-1",
+                        class: tag.style,
+                        attrs: { href: "#" },
+                      },
+                      [_vm._v(_vm._s(tag.name))]
+                    )
+                  }),
+                ],
+                2
+              )
+            : _vm._e(),
         ]),
       ]),
     ],
@@ -1767,7 +1832,39 @@ var render = function () {
       ]),
     ]),
     _vm._v(" "),
-    _vm._m(1),
+    _c("div", { staticClass: "card mb-4" }, [
+      _c("div", { staticClass: "card-header" }, [_vm._v("Tags")]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "card-body" },
+        [
+          _vm._l(_vm.sixTags, function (tag, i) {
+            return _c(
+              "a",
+              {
+                key: i,
+                staticClass: "badge p-2 m-1",
+                class: tag ? tag.style : "",
+                attrs: { href: "#" },
+              },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(tag ? tag.name : "") +
+                    "\n            "
+                ),
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c("a", { staticClass: "d-block mt-3 p-1", attrs: { href: "#" } }, [
+            _vm._v("Vedi tutti..."),
+          ]),
+        ],
+        2
+      ),
+    ]),
   ])
 }
 var staticRenderFns = [
@@ -1799,20 +1896,6 @@ var staticRenderFns = [
             [_vm._v("\n                    Go!\n                ")]
           ),
         ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card mb-4" }, [
-      _c("div", { staticClass: "card-header" }, [_vm._v("Side Widget")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _vm._v(
-          "\n            You can put anything you want inside of these side widgets. They\n            are easy to use, and feature the Bootstrap 5 card component!\n        "
-        ),
       ]),
     ])
   },

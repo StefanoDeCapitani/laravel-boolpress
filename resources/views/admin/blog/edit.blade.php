@@ -55,6 +55,18 @@
                 <div class="invalid-feedback">{{ $message }}</div> 
             @enderror
         </div>
+        <div class="mb-3">
+            <label for="tags" class="form-label">Tags</label>
+            <select name="tags[]" class="form-control" id="category_id" multiple>
+                @foreach ($tags as $tag)
+                    <option value="{{ $tag->id }}" 
+                    {{ (old("tags") && in_array($tag->id, old("tags"))) || $post->tags->contains($tag)
+                     ? "selected" : ""}}>
+                        {{ $tag->name }}
+                    </option>  
+                @endforeach
+            </select>
+        </div>
         <button class="btn btn-primary mb-3 mt-3">Salva</button>
         <a class="btn btn-secondary mb-3 mt-3" href="{{ URL::previous() }}">Indietro</a>
     </form>

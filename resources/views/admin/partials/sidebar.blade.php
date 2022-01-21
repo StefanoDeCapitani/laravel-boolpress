@@ -37,6 +37,11 @@
 </div>
 <!-- Side widget-->
 <div class="card mb-4">
-    <div class="card-header">Side Widget</div>
-    <div class="card-body">You can put anything you want inside of these side widgets. They are easy to use, and feature the Bootstrap 5 card component!</div>
+    <div class="card-header">Tags</div>
+    <div class="card-body">
+        @for ($i = 0; $i < count($tags) && $i < 6; $i++)
+            <a href="#" class="badge {{ $tags[$i]->style }} p-2 m-1">{{ $tags[$i]->name }}</a>
+        @endfor
+        <a href="#" class="d-block mt-3 p-1">Vedi tutti...</a>
+    </div>
 </div>

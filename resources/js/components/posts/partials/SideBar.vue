@@ -45,10 +45,18 @@
         </div>
         <!-- Side widget-->
         <div class="card mb-4">
-            <div class="card-header">Side Widget</div>
+            <div class="card-header">Tags</div>
             <div class="card-body">
-                You can put anything you want inside of these side widgets. They
-                are easy to use, and feature the Bootstrap 5 card component!
+                <a
+                    v-for="(tag, i) in sixTags"
+                    :key="i"
+                    href="#"
+                    class="badge p-2 m-1"
+                    :class="tag ? tag.style : ''"
+                >
+                    {{ tag ? tag.name : "" }}
+                </a>
+                <a href="#" class="d-block mt-3 p-1">Vedi tutti...</a>
             </div>
         </div>
     </div>
@@ -59,13 +67,18 @@ export default {
     name: "SideBar",
     props: {
         categories: Array,
+        tags: Array,
     },
     data() {
         return {
             categoriesArray: null,
+            tagsArray: null,
         };
     },
     computed: {
+        sixTags() {
+            return this.tagsArray ? this.tagsArray.slice(0, 6) : null;
+        },
         categoryColumns() {
             if (this.categoriesArray) {
                 let columns = [[], []];
@@ -84,10 +97,14 @@ export default {
     },
     mounted() {
         this.categoriesArray = this.categories;
+        this.tagsArray = this.tags;
     },
     watch: {
         categories: function (val) {
             this.categoriesArray = val;
+        },
+        tags: function (val) {
+            this.tagsArray = val;
         },
     },
 };
