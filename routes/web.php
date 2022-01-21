@@ -28,9 +28,11 @@ Route::middleware(["auth", "admin"])->namespace("Admin")->name('admin.')->prefix
 });
 
 
-Route::get("{any?}", function(){
-    if(Auth::check()){
-        return redirect()->route("admin.posts.index");
-    }
-    return view("guest.index");
+Route::prefix("{any?}")->group(function(){
+    Route::get("/{id?}", function(){
+        if(Auth::check()){
+            return redirect()->route("admin.posts.index");
+        }
+        return view("guest.index");
+    });
 });

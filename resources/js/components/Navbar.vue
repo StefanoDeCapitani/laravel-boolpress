@@ -15,7 +15,11 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+                <ul
+                    class="navbar-nav ml-auto mb-2 mb-lg-0"
+                    ref="ul"
+                    @click="setActiveLink"
+                >
                     <li class="nav-item">
                         <a class="nav-link" href="#">Home</a>
                     </li>
@@ -26,8 +30,8 @@
                         <a class="nav-link" href="#!">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#"
-                            >Blog</a
+                        <router-link class="nav-link" to="/posts"
+                            >Blog</router-link
                         >
                     </li>
                 </ul>
@@ -49,5 +53,15 @@
 <script>
 export default {
     name: "Navbar",
+    mounted() {
+        this.setActiveLink();
+    },
+    methods: {
+        setActiveLink() {
+            this.$refs.ul
+                .querySelector(".router-link-active")
+                .classList.add("active");
+        },
+    },
 };
 </script>

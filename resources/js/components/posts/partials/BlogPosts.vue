@@ -20,7 +20,11 @@
                     <span v-html="featuredPost ? featuredPost.content : ''">
                     </span>
                 </p>
-                <a class="btn btn-primary" href="#">Read more →</a>
+                <router-link
+                    class="btn btn-primary"
+                    :to="featuredPost ? getPostUrl(featuredPost.id) : ''"
+                    >Read more →</router-link
+                >
             </div>
         </div>
         <!-- Nested row for non-featured blog posts-->
@@ -52,7 +56,11 @@
                             >
                             </span>
                         </p>
-                        <a class="btn btn-primary" href="#">Read more →</a>
+                        <router-link
+                            class="btn btn-primary"
+                            :to="post ? getPostUrl(post.id) : ''"
+                            >Read more →</router-link
+                        >
                     </div>
                 </div>
             </div>
@@ -77,6 +85,11 @@ export default {
         },
         nonFeaturedPosts() {
             return this.postsArray ? this.postsArray.slice(1) : [];
+        },
+    },
+    methods: {
+        getPostUrl(id) {
+            return "/posts/" + id;
         },
     },
     mounted() {
