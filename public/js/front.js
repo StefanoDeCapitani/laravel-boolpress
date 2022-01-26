@@ -411,7 +411,7 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    var url = "http://127.0.0.1:8000/api/guest/posts/" + this.$route.params.id;
+    var url = "http://127.0.0.1:8000/api/guest/posts/" + this.$route.params.slug;
     axios.get(url).then(function (resp) {
       _this.post = resp.data.data;
     });
@@ -577,6 +577,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "BlogPosts",
   props: {
@@ -596,8 +598,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    getPostUrl: function getPostUrl(id) {
-      return "/posts/" + id;
+    getPostUrl: function getPostUrl(slug) {
+      return "/posts/" + slug;
     }
   },
   mounted: function mounted() {
@@ -1790,7 +1792,7 @@ var render = function () {
           "router-link",
           {
             attrs: {
-              to: _vm.featuredPost ? _vm.getPostUrl(_vm.featuredPost.id) : "",
+              to: _vm.featuredPost ? _vm.getPostUrl(_vm.featuredPost.slug) : "",
             },
           },
           [
@@ -1840,7 +1842,7 @@ var render = function () {
                 staticClass: "btn btn-primary",
                 attrs: {
                   to: _vm.featuredPost
-                    ? _vm.getPostUrl(_vm.featuredPost.id)
+                    ? _vm.getPostUrl(_vm.featuredPost.slug)
                     : "",
                 },
               },
@@ -1864,7 +1866,7 @@ var render = function () {
             [
               _c(
                 "router-link",
-                { attrs: { to: post ? _vm.getPostUrl(post.id) : "" } },
+                { attrs: { to: post ? _vm.getPostUrl(post.slug) : "" } },
                 [
                   _c("img", {
                     staticClass: "card-img-top",
@@ -1903,7 +1905,7 @@ var render = function () {
                     "router-link",
                     {
                       staticClass: "btn btn-primary",
-                      attrs: { to: post ? _vm.getPostUrl(post.id) : "" },
+                      attrs: { to: post ? _vm.getPostUrl(post.slug) : "" },
                     },
                     [_vm._v("Read more →")]
                   ),
@@ -18284,7 +18286,7 @@ var routes = [{
   name: "postsIndex",
   component: _components_posts_PostsIndex__WEBPACK_IMPORTED_MODULE_3__["default"]
 }, {
-  path: "/posts/:id",
+  path: "/posts/:slug",
   name: "postsShow",
   component: _components_posts_PostsShow__WEBPACK_IMPORTED_MODULE_4__["default"]
 }]; // 3. Create the router instance and pass the `routes` option

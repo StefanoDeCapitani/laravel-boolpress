@@ -2,7 +2,9 @@
     <div class="blog-posts">
         <!-- Featured blog post-->
         <div class="card mb-4">
-            <router-link :to="featuredPost ? getPostUrl(featuredPost.id) : ''">
+            <router-link
+                :to="featuredPost ? getPostUrl(featuredPost.slug) : ''"
+            >
                 <img
                     class="card-img-top"
                     :src="featuredPost ? featuredPost.coverImg : ''"
@@ -22,7 +24,7 @@
                 </p>
                 <router-link
                     class="btn btn-primary"
-                    :to="featuredPost ? getPostUrl(featuredPost.id) : ''"
+                    :to="featuredPost ? getPostUrl(featuredPost.slug) : ''"
                     >Read more →</router-link
                 >
             </div>
@@ -37,7 +39,7 @@
             >
                 <!-- Blog post-->
                 <div class="card mb-4">
-                    <router-link :to="post ? getPostUrl(post.id) : ''"
+                    <router-link :to="post ? getPostUrl(post.slug) : ''"
                         ><img
                             class="card-img-top"
                             :src="post.coverImg"
@@ -58,7 +60,7 @@
                         </p>
                         <router-link
                             class="btn btn-primary"
-                            :to="post ? getPostUrl(post.id) : ''"
+                            :to="post ? getPostUrl(post.slug) : ''"
                             >Read more →</router-link
                         >
                     </div>
@@ -88,8 +90,8 @@ export default {
         },
     },
     methods: {
-        getPostUrl(id) {
-            return "/posts/" + id;
+        getPostUrl(slug) {
+            return "/posts/" + slug;
         },
     },
     mounted() {

@@ -18,7 +18,7 @@ import PostsShow from "./components/posts/PostsShow";
 const routes = [
     { path: "", name: "home", component: Home },
     { path: "/posts", name: "postsIndex", component: PostsIndex },
-    { path: "/posts/:id", name: "postsShow", component: PostsShow },
+    { path: "/posts/:slug", name: "postsShow", component: PostsShow },
 ];
 
 // 3. Create the router instance and pass the `routes` option

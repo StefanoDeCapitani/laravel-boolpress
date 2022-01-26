@@ -34,7 +34,7 @@ export default {
     },
     created() {
         let url =
-            "http://127.0.0.1:8000/api/guest/posts/" + this.$route.params.id;
+            "http://127.0.0.1:8000/api/guest/posts/" + this.$route.params.slug;
         axios.get(url).then((resp) => {
             this.post = resp.data.data;
         });

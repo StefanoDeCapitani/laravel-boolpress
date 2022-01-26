@@ -67,10 +67,8 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::where("id", $id)->with("user")->with("tags")->get()[0];
-
         $categories = Category::all();
         $tags = Tag::all();
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Category;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,9 @@ class CategoryController extends Controller
         ->select("name", DB::raw("categories.id as id") , DB::raw('COUNT(posts.id) as posts'))
         ->groupBy("categories.id")->get(); 
 
-        return view("admin.categories.index", compact("categories"));
+        $tags = Tag::all();
+
+        return view("admin.categories.index", compact("categories", "tags"));
     }
 
     /**
@@ -60,7 +63,9 @@ class CategoryController extends Controller
         
         $posts = Post::where("category_id", $category->id)->get();
 
-        return view("admin.categories.show", compact("category", "categories", "posts"));
+        $tags = Tag::all();
+
+        return view("admin.categories.show", compact("category", "categories", "posts", "tags"));
     }
 
     /**

@@ -20,6 +20,7 @@ class PostResource extends JsonResource
             return [
                 "id" => $this->id,
                 "title" => $this->title,
+                "slug" => $this->slug,
                 "subtitle" => $this->subtitle,
                 "content" => Str::limit(trim(strip_tags($this->content)) , 200, "..."),
                 "user" => $this->user,
@@ -31,6 +32,7 @@ class PostResource extends JsonResource
         return [
             "id" => $this->id,
             "title" => $this->title,
+            "slug" => $this->slug,
             "subtitle" => $this->subtitle,
             "content" => $this->content,
             "user" => $this->user,

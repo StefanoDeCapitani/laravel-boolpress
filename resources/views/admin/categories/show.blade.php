@@ -42,13 +42,13 @@
                     <th>{{ $loop->iteration }}</th>
                     <th scope="row"><img class="thumbnail" src="{{ $post->coverImg }}"
                         alt="{{ $post->title }}" /></th>
-                    <td><a href="{{ route("admin.posts.show", $post->id) }}">{{ $post->title }}</a></td>
+                    <td><a href="{{ route("admin.posts.show", $post->slug) }}">{{ $post->title }}</a></td>
                     <td>
                         <a href="{{ route("admin.users.show", $post->user->id) }}">{{ $post->user->name}}</a>
                     </td>
                     <td>{{ $post->category->name }}</td>
                     <td>
-                        <form action="{{ route("admin.posts.destroy", $post->id) }}" method="POST">
+                        <form action="{{ route("admin.posts.destroy", $post->slug) }}" method="POST">
                             @csrf
                             @method("DELETE")
                             <button class="btn btn-danger">Elimina</button> 
