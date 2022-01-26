@@ -17,7 +17,7 @@
 
 <script>
 import BlogPostShow from "./partials/BlogPostShow.vue";
-import SideBar from "./partials/SideBar.vue";
+import SideBar from "../../components/SideBar.vue";
 
 export default {
     name: "PostsShow",

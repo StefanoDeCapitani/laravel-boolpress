@@ -20,10 +20,10 @@
 </template>
 
 <script>
-import SideBar from "./partials/SideBar.vue";
+import SideBar from "../../components/SideBar.vue";
 import BlogPosts from "./partials/BlogPosts.vue";
-import TheHeader from "../TheHeader.vue";
-import Pagination from "./partials/Pagination.vue";
+import TheHeader from "../../components/TheHeader.vue";
+import Pagination from "../../components/Pagination.vue";
 
 export default {
     name: "PostsIndex",
