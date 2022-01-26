@@ -36,9 +36,9 @@
                 @endif
                 <div class="d-flex mt-4">
                     @if(Auth::id() === $post->user->id)
-                        <a class="btn btn-primary mr-3" href="{{ route("admin.posts.edit", $post->id) }}">Modifica</a>
+                        <a class="btn btn-primary mr-3" href="{{ route("admin.posts.edit", $post->slug) }}">Modifica</a>
                     @endif
-                    <form action="{{ route("admin.posts.destroy", $post->id) }}" method="POST">
+                    <form action="{{ route("admin.posts.destroy", $post->slug) }}" method="POST">
                         @csrf
                         @method("DELETE")
                         <button class="btn btn-danger">Elimina</button>
