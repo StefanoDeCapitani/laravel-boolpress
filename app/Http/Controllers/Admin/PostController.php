@@ -22,9 +22,9 @@ class PostController extends Controller
         $posts = null;
 
         if(Auth::user()->role === "admin"){
-            $posts = Post::all();
+            $posts = Post::paginate(10);
         } else {
-            $posts = Post::where("user_id", Auth::id())->with("user")->with("category")->with("tags")->get();
+            $posts = Post::where("user_id", Auth::id())->with("user")->with("category")->with("tags")->paginate(10);
         }
 
         return view("admin.blog.index", compact("posts"));

@@ -21,8 +21,8 @@
                 <div class="w-75" v-if="postTags">
                     <span class="mr-2"> Tags: </span>
                     <a
-                        v-for="tag in postTags"
-                        :key="tag.id"
+                        v-for="(tag, i) in postTags"
+                        :key="i"
                         href="#"
                         :class="tag.style"
                         class="badge p-2 m-1"
@@ -55,7 +55,6 @@ export default {
     },
     watch: {
         blogpost: function (val) {
-            console.log("Ehi!");
             this.post = val;
         },
     },

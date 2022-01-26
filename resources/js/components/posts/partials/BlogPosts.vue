@@ -2,13 +2,13 @@
     <div class="blog-posts">
         <!-- Featured blog post-->
         <div class="card mb-4">
-            <a href="#!">
+            <router-link :to="featuredPost ? getPostUrl(featuredPost.id) : ''">
                 <img
                     class="card-img-top"
                     :src="featuredPost ? featuredPost.coverImg : ''"
                     :alt="featuredPost ? featuredPost.title : ''"
                 />
-            </a>
+            </router-link>
             <div class="card-body">
                 <div class="small text-muted">
                     {{ featuredPost ? featuredPost.user.name : "" }}
@@ -37,12 +37,12 @@
             >
                 <!-- Blog post-->
                 <div class="card mb-4">
-                    <a href="#!"
+                    <router-link :to="post ? getPostUrl(post.id) : ''"
                         ><img
                             class="card-img-top"
                             :src="post.coverImg"
                             :alt="post.title"
-                    /></a>
+                    /></router-link>
                     <div class="card-body">
                         <div class="small text-muted">
                             {{ post.user.name }}
