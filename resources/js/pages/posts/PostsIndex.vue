@@ -1,6 +1,12 @@
 <template>
     <div>
-        <the-header />
+        <the-header
+            :title="
+                category
+                    ? 'Categoria: ' + posts[0].category.name
+                    : 'Benvenuto sul blog di Boolean'
+            "
+        />
         <div class="container mt-5">
             <div class="row">
                 <!-- Blog entries-->
@@ -12,7 +18,7 @@
                 </div>
                 <!-- Side widgets-->
                 <div class="col-lg-4">
-                    <side-bar :categories="categories" />
+                    <side-bar :categories="categories" :tags="tags" />
                 </div>
             </div>
         </div>
@@ -33,21 +39,28 @@ export default {
         TheHeader,
         Pagination,
     },
+    props: ["category"],
     data() {
         return {
             posts: null,
             meta: null,
             categories: null,
+            tags: null,
+            postCategory: null,
         };
     },
     methods: {
         onChangePage(page) {
             this.fetchPosts(page);
         },
+        onCategoryFilter(e) {
+            fetchPost();
+        },
         fetchPosts(page) {
+            let category = this.postCategory;
             axios
                 .get("http://127.0.0.1:8000/api/guest/posts", {
-                    params: { page: page },
+                    params: category ? { page, category } : { page },
                 })
                 .then((resp) => {
                     this.posts = resp.data.data;
@@ -60,6 +73,15 @@ export default {
         axios.get("http://127.0.0.1:8000/api/guest/categories").then((resp) => {
             this.categories = resp.data.data;
         });
+        axios.get("http://127.0.0.1:8000/api/guest/tags").then((resp) => {
+            this.tags = resp.data.data;
+        });
+    },
+    watch: {
+        category: function (val) {
+            this.postCategory = val;
+            this.fetchPosts(1);
+        },
     },
 };
 </script>

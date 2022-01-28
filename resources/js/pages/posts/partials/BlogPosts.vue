@@ -13,7 +13,9 @@
             </router-link>
             <div class="card-body">
                 <div class="small text-muted">
-                    {{ featuredPost ? featuredPost.user.name : "" }}
+                    {{ featuredPost ? featuredPost.user.name : "" }} -
+                    categoria:
+                    {{ featuredPost ? featuredPost.category.name : "" }}
                 </div>
                 <h2 class="card-title h4">
                     {{ featuredPost ? featuredPost.title : "" }}
@@ -47,7 +49,8 @@
                     /></router-link>
                     <div class="card-body">
                         <div class="small text-muted">
-                            {{ post.user.name }}
+                            {{ post.user.name }} - categoria:
+                            {{ post ? post.category.name : "" }}
                         </div>
                         <h2 class="card-title h4">{{ post.title }}</h2>
                         <p class="card-text">

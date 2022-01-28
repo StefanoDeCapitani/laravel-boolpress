@@ -19,7 +19,7 @@ export default {
         },
         subtitle: {
             type: String,
-            default: "Sottotitolo homepage",
+            default: "",
         },
     },
 };

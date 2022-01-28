@@ -275,6 +275,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "SideBar",
   props: {
@@ -356,7 +361,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     subtitle: {
       type: String,
-      "default": "Sottotitolo homepage"
+      "default": ""
     }
   }
 });
@@ -427,6 +432,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 
@@ -439,22 +450,32 @@ __webpack_require__.r(__webpack_exports__);
     TheHeader: _components_TheHeader_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     Pagination: _components_Pagination_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
+  props: ["category"],
   data: function data() {
     return {
       posts: null,
       meta: null,
-      categories: null
+      categories: null,
+      tags: null,
+      postCategory: null
     };
   },
   methods: {
     onChangePage: function onChangePage(page) {
       this.fetchPosts(page);
     },
+    onCategoryFilter: function onCategoryFilter(e) {
+      fetchPost();
+    },
     fetchPosts: function fetchPosts(page) {
       var _this = this;
 
+      var category = this.postCategory;
       axios.get("http://127.0.0.1:8000/api/guest/posts", {
-        params: {
+        params: category ? {
+          page: page,
+          category: category
+        } : {
           page: page
         }
       }).then(function (resp) {
@@ -470,6 +491,15 @@ __webpack_require__.r(__webpack_exports__);
     axios.get("http://127.0.0.1:8000/api/guest/categories").then(function (resp) {
       _this2.categories = resp.data.data;
     });
+    axios.get("http://127.0.0.1:8000/api/guest/tags").then(function (resp) {
+      _this2.tags = resp.data.data;
+    });
+  },
+  watch: {
+    category: function category(val) {
+      this.postCategory = val;
+      this.fetchPosts(1);
+    }
   }
 });
 
@@ -689,6 +719,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "BlogPosts",
   props: {
@@ -781,20 +814,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Navbar",
-  mounted: function mounted() {
-    /*         this.resetActiveLink(); */
-  },
-  methods: {
-    /*         resetActiveLink() {
-        let previousActiveElements =
-            this.$refs.ul.querySelectorAll(".active");
-        previousActiveElements.forEach((el) => {
-            el.classList.remove("active");
-        });
-    }, */
-  }
+  name: "Navbar"
 });
 
 /***/ }),
@@ -1453,15 +1478,31 @@ var render = function () {
                 "ul",
                 { staticClass: "list-unstyled mb-0" },
                 _vm._l(column, function (category) {
-                  return _c("li", { key: category.id }, [
-                    _c("a", { attrs: { href: "#!" } }, [
-                      _vm._v(
-                        "\n                                " +
-                          _vm._s(category ? category.name : "") +
-                          "\n                            "
+                  return _c(
+                    "li",
+                    { key: category.id },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          attrs: {
+                            to: {
+                              path: "/posts",
+                              query: { category: category.id },
+                            },
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\n                                " +
+                              _vm._s(category ? category.name : "") +
+                              "\n                            "
+                          ),
+                        ]
                       ),
-                    ]),
-                  ])
+                    ],
+                    1
+                  )
                 }),
                 0
               ),
@@ -1622,7 +1663,13 @@ var render = function () {
   return _c(
     "div",
     [
-      _c("the-header"),
+      _c("the-header", {
+        attrs: {
+          title: _vm.category
+            ? "Categoria: " + _vm.posts[0].category.name
+            : "Benvenuto sul blog di Boolean",
+        },
+      }),
       _vm._v(" "),
       _c("div", { staticClass: "container mt-5" }, [
         _c("div", { staticClass: "row" }, [
@@ -1650,7 +1697,11 @@ var render = function () {
           _c(
             "div",
             { staticClass: "col-lg-4" },
-            [_c("side-bar", { attrs: { categories: _vm.categories } })],
+            [
+              _c("side-bar", {
+                attrs: { categories: _vm.categories, tags: _vm.tags },
+              }),
+            ],
             1
           ),
         ]),
@@ -1851,6 +1902,10 @@ var render = function () {
               _vm._v(
                 "\n                " +
                   _vm._s(_vm.featuredPost ? _vm.featuredPost.user.name : "") +
+                  " -\n                categoria:\n                " +
+                  _vm._s(
+                    _vm.featuredPost ? _vm.featuredPost.category.name : ""
+                  ) +
                   "\n            "
               ),
             ]),
@@ -1920,6 +1975,8 @@ var render = function () {
                     _vm._v(
                       "\n                        " +
                         _vm._s(post.user.name) +
+                        " - categoria:\n                        " +
+                        _vm._s(post ? post.category.name : "") +
                         "\n                    "
                     ),
                   ]),
@@ -1984,64 +2041,77 @@ var render = function () {
     "nav",
     { staticClass: "navbar navbar-expand-lg navbar-dark bg-dark" },
     [
-      _c("div", { staticClass: "container" }, [
-        _c("a", { staticClass: "navbar-brand", attrs: { href: "/" } }, [
-          _vm._v(" Laravel "),
-        ]),
-        _vm._v(" "),
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "collapse navbar-collapse",
-            attrs: { id: "navbarSupportedContent" },
-          },
-          [
-            _c(
-              "ul",
-              { ref: "ul", staticClass: "navbar-nav ml-auto mb-2 mb-lg-0" },
-              [
-                _c(
-                  "li",
-                  { staticClass: "nav-item" },
-                  [
-                    _c(
-                      "router-link",
-                      { staticClass: "nav-link", attrs: { to: "/" } },
-                      [_vm._v("Home")]
-                    ),
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _vm._m(1),
-                _vm._v(" "),
-                _vm._m(2),
-                _vm._v(" "),
-                _c(
-                  "li",
-                  { staticClass: "nav-item" },
-                  [
-                    _c(
-                      "router-link",
-                      { staticClass: "nav-link", attrs: { to: "/posts" } },
-                      [
-                        _vm._v(
-                          "\n                        Blog\n                    "
-                        ),
-                      ]
-                    ),
-                  ],
-                  1
-                ),
-              ]
-            ),
-            _vm._v(" "),
-            _vm._m(3),
-          ]
-        ),
-      ]),
+      _c(
+        "div",
+        { staticClass: "container" },
+        [
+          _c(
+            "router-link",
+            {
+              staticClass: "nav-link text-white",
+              attrs: { to: { name: "home" } },
+            },
+            [_vm._v("\n            Laravel-BoolPress\n        ")]
+          ),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "collapse navbar-collapse",
+              attrs: { id: "navbarSupportedContent" },
+            },
+            [
+              _c(
+                "ul",
+                { ref: "ul", staticClass: "navbar-nav ml-auto mb-2 mb-lg-0" },
+                [
+                  _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        {
+                          staticClass: "nav-link",
+                          attrs: { to: { name: "home" } },
+                        },
+                        [_vm._v("Home")]
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _c(
+                    "li",
+                    { staticClass: "nav-item" },
+                    [
+                      _c(
+                        "router-link",
+                        { staticClass: "nav-link", attrs: { to: "/posts" } },
+                        [
+                          _vm._v(
+                            "\n                        Blog\n                    "
+                          ),
+                        ]
+                      ),
+                    ],
+                    1
+                  ),
+                ]
+              ),
+              _vm._v(" "),
+              _vm._m(3),
+            ]
+          ),
+        ],
+        1
+      ),
     ]
   )
 }
@@ -17795,13 +17865,18 @@ Vue.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 
 var routes = [{
-  path: "",
+  path: "/home",
   name: "home",
   component: _pages_Home__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
   path: "/posts",
   name: "postsIndex",
-  component: _pages_posts_PostsIndex__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _pages_posts_PostsIndex__WEBPACK_IMPORTED_MODULE_3__["default"],
+  props: function props(route) {
+    return {
+      category: route.query ? route.query.category : null
+    };
+  }
 }, {
   path: "/posts/:slug",
   name: "postsShow",
@@ -17812,6 +17887,7 @@ var routes = [{
 
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: "history",
+  linkActiveClass: "active",
   linkExactActiveClass: "active",
   routes: routes
 });

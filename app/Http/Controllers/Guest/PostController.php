@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Guest;
 
+use App\Category;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -14,9 +15,15 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return PostResource::collection(Post::paginate(9));
+        $category = $request->query("category");
+        if($category){
+            $posts = Category::find($category)->posts()->paginate(9);
+        } else {
+            $posts = Post::paginate(9);
+        }
+        return PostResource::collection($posts);
     }
 
     /**

@@ -34,9 +34,14 @@
                     >
                         <ul class="list-unstyled mb-0">
                             <li v-for="category in column" :key="category.id">
-                                <a href="#!">
+                                <router-link
+                                    :to="{
+                                        path: '/posts',
+                                        query: { category: category.id },
+                                    }"
+                                >
                                     {{ category ? category.name : "" }}
-                                </a>
+                                </router-link>
                             </li>
                         </ul>
                     </div>

@@ -2,7 +2,9 @@
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="/"> Laravel </a>
+            <router-link class="nav-link text-white" :to="{ name: 'home' }">
+                Laravel-BoolPress
+            </router-link>
             <button
                 class="navbar-toggler"
                 type="button"
@@ -17,7 +19,9 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto mb-2 mb-lg-0" ref="ul">
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/">Home</router-link>
+                        <router-link class="nav-link" :to="{ name: 'home' }"
+                            >Home</router-link
+                        >
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#!">About</a>
@@ -49,17 +53,5 @@
 <script>
 export default {
     name: "Navbar",
-    mounted() {
-        /*         this.resetActiveLink(); */
-    },
-    methods: {
-        /*         resetActiveLink() {
-            let previousActiveElements =
-                this.$refs.ul.querySelectorAll(".active");
-            previousActiveElements.forEach((el) => {
-                el.classList.remove("active");
-            });
-        }, */
-    },
 };
 </script>
