@@ -1,7 +1,7 @@
 <template>
-    <div>
+    <div class="min-height-100">
         <navbar />
-        <router-view></router-view>
+        <router-view class="flex-grow-1"></router-view>
         <the-footer />
     </div>
 </template>
@@ -18,3 +18,11 @@ export default {
     },
 };
 </script>
+
+<style lang="scss" scoped>
+.min-height-100 {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+</style>
