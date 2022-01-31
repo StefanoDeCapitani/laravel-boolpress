@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Guest\ContactController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Post;
@@ -24,4 +25,5 @@ Route::middleware('api')->namespace("Guest")->name("guest.")->prefix("guest")->g
     Route::resource("/posts", "PostController"); 
     Route::resource("/categories", "CategoryController");
     Route::resource("/tags", "TagController");
+    Route::post("/contact/send", "ContactController@send")->name("contact.send");
 });
