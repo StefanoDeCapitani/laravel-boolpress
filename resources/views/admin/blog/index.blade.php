@@ -28,7 +28,7 @@
             @foreach ($posts as $post)
                 <tr>
                     <th>{{ $post->id }}</th>
-                    <th scope="row"><img class="thumbnail" src="{{ $post->coverImg }}"
+                    <th scope="row"><img class="thumbnail" src="{{ asset("storage/" . $post->coverImg) }}"
                         alt="{{ $post->title }}" /></th>
                     <td><a href="{{ route("admin.posts.show", $post->slug) }}">{{ $post->title }}</a></td>
                     <td>

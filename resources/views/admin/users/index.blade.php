@@ -25,7 +25,7 @@
         <tbody>
             @foreach ($users as $user)
                 <tr>
-                    <td><img class="thumbnail" src="{{ $user->image }}" alt=""></td>
+                    <td><img class="thumbnail" src="{{ asset("storage/" . $user->image) }}" alt=""></td>
                     <th scope="row"><a href="{{ route("admin.users.show", $user->id) }}">{{ $user->name }}</a></th>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at }}</td>
