@@ -6,7 +6,7 @@
     <div class="d-flex px-3 mb-4">
         <h2>Users</h2>
         @if(Session::has("message"))
-        <div class="alert alert-danger">{{ Session::get("message") }}</div>
+        <div class="alert alert-danger ml-auto">{{ Session::get("message") }}</div>
         @endif
     </div>
 
@@ -25,22 +25,20 @@
         <tbody>
             @foreach ($users as $user)
                 <tr>
-                    <td><img class="thumbnail" src="{{ asset("storage/" . $user->image) }}" alt=""></td>
+                    <td><img class="thumbnail rounded-circle" src="{{ asset($user->image) }}" alt=""></td>
                     <th scope="row"><a href="{{ route("admin.users.show", $user->id) }}">{{ $user->name }}</a></th>
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->created_at }}</td>
                     <td>
-                        <form action="{{ route("admin.users.update", $user->id) }}" method="POST" class="d-flex" disabled>
+                        <form action="{{ route("admin.users.role.update", $user->id) }}" method="POST" class="d-flex">
                             @csrf
                             @method("PUT")
-                            <input type="hidden" name="name" value="{{$user->name}}"/>
-                            <input type="hidden" name="email" value="{{$user->email}}"/>
                             <select name="role" class="form-control mr-2" {{ $user->id === Auth::id() ? "disabled" : "" }}>
                                 <option value="user" {{ $user->role === "user" ? "selected" : ""  }}>Utente</option> 
                                 <option value="admin" {{ $user->role === "admin" ? "selected" : ""  }}>Amministratore</option>   
                             </select>
+                            @error("role") $message @enderror
                             <button class="btn btn-primary" {{ $user->id === Auth::id() ? "disabled" : "" }}>Salva</button>
-                            
                         </form>
                     </td>
                     <td class="d-flex">

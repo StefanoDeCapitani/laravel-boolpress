@@ -32,6 +32,7 @@ class UpdateUser extends FormRequest
             "name" => "required",
             "email" => "required|email|email:rfc,dns",
             "role" => [ Rule::in(['admin', 'user']) ],
+            "image" => "file|mimes:jpg,bmp,png",
         ];
     }
 }

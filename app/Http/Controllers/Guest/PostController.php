@@ -24,10 +24,6 @@ class PostController extends Controller
             $posts = Post::paginate(9);
         }
 
-        foreach($posts as $post){
-            $post->coverImg = asset("storage/" . $post->coverImg);
-        }
-
         return PostResource::collection($posts);
     }
 
@@ -60,8 +56,6 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        $post->coverImg = asset("storage/" . $post->coverImg);
-        
         return new PostResource($post);
     }
 

@@ -24,6 +24,7 @@ Route::middleware("auth")->namespace("Admin")->name('admin.')->prefix("admin")->
 });
 
 Route::middleware(["auth", "admin"])->namespace("Admin")->name('admin.')->prefix("admin")->group(function(){
+    Route::put("users/{id}/role/update", "RoleController@update")->name("users.role.update");
     Route::resource("users", "UserController");
 });
 

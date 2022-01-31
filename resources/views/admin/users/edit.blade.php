@@ -2,17 +2,20 @@
 
 @section('main-content')
 <div class="col-lg-8">
-    <form action="{{ route("admin.users.update", $user->id) }}" method="POST" class="mb-5">
+    <form action="{{ route("admin.users.update", $user->id) }}" method="POST" enctype='multipart/form-data' class="mb-5">
         @csrf
-        @method('put')
-{{--         <div class="mb-3">
-            <label for="coverImg" class="form-label">URL immagine</label>
-            <input type="text" class="form-control @error("coverImg") is-invalid @enderror" 
-            id="coverImg" name="coverImg" value="{{ old('coverImg') ?? $user->coverImg }}">
-            @error("coverImg") 
+        @method('PUT')
+        <label for="image" class="form-label">Immagine di copertina</label>
+        <div class="input-group mb-3">
+            <div class="custom-file @error("image") is-invalid @enderror">
+              <input type="file" class="custom-file-input" id="image" name="image" 
+              value="{{ old('image') ?? $user->image }}">
+              <label class="custom-file-label" for="image">Scegli un'immagine</label>
+            </div>
+            @error("image") 
                 <div class="invalid-feedback">{{ $message }}</div> 
             @enderror
-        </div> --}}
+        </div>
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
             <input type="text" class="form-control @error("name") is-invalid @enderror" 

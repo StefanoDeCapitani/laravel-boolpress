@@ -4,7 +4,7 @@
 
 @section('main-content')
 <div class="col-lg-8">
-    <form action="{{ route("admin.posts.store") }}" method="POST" class="mb-5">
+    <form action="{{ route("admin.posts.store") }}" method="POST" enctype='multipart/form-data' class="mb-5">
         @csrf
         <div class="mb-3">
             <label for="title" class="form-label">Titolo</label>
@@ -40,10 +40,17 @@
                 <div class="invalid-feedback">{{ $message }}</div> 
             @enderror
         </div>
-        <div class="mb-3">
+{{--         <div class="mb-3">
             <label for="coverImg" class="form-label">URL immagine</label>
             <input type="text" class="form-control @error("coverImg") is-invalid @enderror" 
             id="coverImg" name="coverImg" value="{{ old('coverImg')}}">
+        </div> --}}
+        <label for="coverImg" class="form-label">URL immagine</label>
+        <div class="input-group mb-3">
+            <div class="custom-file @error("coverImg") is-invalid @enderror">
+              <input type="file" class="custom-file-input" id="coverImg" name="coverImg" value="{{ old('coverImg')}}">
+              <label class="custom-file-label" for="coverImg">Scegli un'immagine</label>
+            </div>
             @error("coverImg") 
                 <div class="invalid-feedback">{{ $message }}</div> 
             @enderror

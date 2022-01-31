@@ -2,18 +2,18 @@
 
 @section('main-content')
 <div class="col-lg-8">
-    <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center mb-2">
         <h2 class="mb-4">Profilo</h2>
         @if(Session::has("message"))
-            <div class="alert alert-success ml-auto my-auto">{{ Session::get("message") }}</div>
+            <div class="alert alert-success ml-auto">{{ Session::get("message") }}</div>
         @endif
     </div>
     <div class="card mb-4">
-        <a href="#" class="d-flex justify-content-center p-5">
+        <div class="d-flex justify-content-center p-5">
             <div class="w-25">
-                <img class="card-img-top w-100" src="{{ $user->image }}" alt="{{ $user->title }}" />
+                <img class="card-img-top w-100 rounded-circle" src="{{ asset($user->image) }}" alt="{{ $user->title }}" />
             </div>
-        </a>
+        </div>
         <div class="card-body">
             <h2>Utente: {{ $user->name }}</h2>
             <h5>Ruolo: {{ $user->role }}</h5>

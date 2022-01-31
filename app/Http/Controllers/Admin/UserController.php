@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -76,12 +78,21 @@ class UserController extends Controller
     public function update(UpdateUser $request, User $user)
     {
         $data = $request->validated();
-        
+        $defaultImg = "storage/users/images/profile-image-placeholder.png";
+
+        if($request->image){
+            if ($user->image !== $defaultImg) {
+                Storage::delete($user->image);
+            }
+            $img_path = Storage::put("/users/images", $request->image);
+            $data["image"] = "storage/" . $img_path;
+        }
+
         $user->update($data);
+        $user->save();
 
-        $message = "Il nuovo ruolo dell'utente " . $user->name . " è " . $user->role;
-
-        return redirect()->route("admin.users.index")->with("message", $message);
+        $message = "Profilo modificato correttamente";
+        return redirect()->route("admin.users.show", $user->id)->with("message", $message);
     }
 
     /**

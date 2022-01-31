@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUpdatePost;
+use App\Http\Requests\StorePost;
+use App\Http\Requests\UpdatePost;
 use Illuminate\Support\Facades\Auth;
 use App\Category;
 use App\Tag;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -49,16 +51,21 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUpdatePost $request)
+    public function store(StorePost $request)
     {
         $data = $request->validated();
         $data["user_id"] = Auth::id();
 
         $post = Post::create($data);  
+
+        $img_path = Storage::put("/posts/images", $request->coverImg);
+        $post->coverImg = "storage/" . $img_path;
+
         $post->tags()->sync($request->tags);
+
         $post->save();
 
-        return redirect()->route("admin.posts.show", $post->id)->with("message", "Nuovo post creato con successo!");
+        return redirect()->route("admin.posts.show", $post->slug)->with("message", "Nuovo post creato con successo!");
     }
 
     /**
@@ -96,12 +103,21 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreUpdatePost $request, Post $post)
+    public function update(UpdatePost $request, Post $post)
     {   
-        $post->update($request->validated());
+        $data = $request->validated();
+
+        if($request->coverImg){
+            Storage::delete($post->coverImg);
+            $img_path = Storage::put("/posts/images", $request->coverImg);
+            $data["coverImg"] = "storage/" . $img_path;
+        }
+
+        $post->update($data);
         $post->tags()->sync($request->tags);
+        $post->save();
             
-        return redirect()->route("admin.posts.show", $post->id)->with("message", "Modifiche salvate con successo!");
+        return redirect()->route("admin.posts.show", $post->slug)->with("message", "Modifiche salvate con successo!");
     }
 
     /**
@@ -113,6 +129,7 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         $post->tags()->detach();
+        Storage::delete($post->coverImg);
         $post->delete();
 
         return redirect()->route("admin.posts.index")->with("message", "Post eliminato con successo!");

@@ -22,7 +22,7 @@ class PostSeeder extends Seeder
                 "subtitle" => $faker->sentence(8),
                 "content" => "<p>" . $faker->paragraphs(15, true) . "</p>",
                 "user_id" => $faker->numberBetween(1, 10),
-                "coverImg" => "posts/images/blog-post-cover-" . $faker->numberBetween(1, 9) . ".jpeg",
+                "coverImg" => "storage/posts/images/blog-post-cover-" . $faker->numberBetween(1, 9) . ".jpeg",
                 "category_id" => $faker->numberBetween(1, 6),
                 "created_at" => date("Y-m-d H:i:s"),
             ]);

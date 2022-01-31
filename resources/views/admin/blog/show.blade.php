@@ -11,7 +11,7 @@
             @endif
         </div>
         <div class="card mb-4">
-            <a href="#"><img class="card-img-top" src="{{ asset("storage/" . $post->coverImg) }}" alt="{{ $post->title }}" /></a>
+            <a href="#"><img class="card-img-top" src="{{ asset($post->coverImg) }}" alt="{{ $post->title }}" /></a>
             <div class="card-body">
                 <div class="small text-muted">
                     Di 

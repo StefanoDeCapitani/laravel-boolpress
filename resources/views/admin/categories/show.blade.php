@@ -40,7 +40,7 @@
             @foreach ($posts as $post)
                 <tr>
                     <th>{{ $loop->iteration }}</th>
-                    <th scope="row"><img class="thumbnail" src="{{ asset("storage/" . $post->coverImg) }}"
+                    <th scope="row"><img class="thumbnail" src="{{ asset($post->coverImg) }}"
                         alt="{{ $post->title }}" /></th>
                     <td><a href="{{ route("admin.posts.show", $post->slug) }}">{{ $post->title }}</a></td>
                     <td>
