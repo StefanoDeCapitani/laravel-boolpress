@@ -10,12 +10,8 @@ use Illuminate\Http\Request;
 class ContactController extends Controller
 {
     public function send(Request $request){
-
         $data = $request->all();
 
         Mail::to("info@boolpress.it")->send(new SendContactMail($data));
-
-        return $data;
-
     }
 }
